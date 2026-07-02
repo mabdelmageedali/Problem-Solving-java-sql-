@@ -1,0 +1,71 @@
+Part 1: ERD Design Problem — "Sunrise Medical Clinic"
+Design a database for a multi-doctor clinic with the following requirements:
+
+The clinic has several departments (e.g., Cardiology, Pediatrics). Each department has a unique name, a location, and a budget. Each department is managed by exactly one doctor, and a doctor manages at most one department.
+Each doctor has an ID, name (first/last), specialty, phone number, and hire date. Every doctor works in exactly one department, but a department has many doctors.
+Each patient has an ID, name, date of birth, gender, and a set of phone numbers (a patient may have more than one contact number). Patients don't need to belong to a department.
+A patient can have multiple appointments over time with doctors. Each appointment has a date, a time, a status (scheduled/completed/cancelled), and a room number. An appointment is with exactly one doctor and one patient. A doctor can have many appointments, and so can a patient — but no doctor can have two appointments in the same room at the same time (think about how you'd enforce this later, not necessarily in the ERD).
+After an appointment is completed, the doctor writes a prescription. A prescription only exists if tied to a specific appointment (if the appointment is deleted, the prescription should not be able to exist without it). Each prescription has an ID, a date issued, and dosage instructions.
+A prescription can include multiple medicines, and the same medicine can appear in many prescriptions (with a specific quantity and duration for that particular prescription). Each medicine has a code, name, manufacturer, and unit price.
+Some doctors act as referring doctors for patients — i.e., a doctor can refer a patient to another doctor. Track which doctor referred which patient to which doctor, and the referral date.
+The clinic also tracks insurance providers. Each patient may be insured by one insurance provider (or none), and each provider insures many patients. Store the provider's name, policy number for that patient, and coverage percentage.
+
+Your task: Draw the ERD (entities, relationships, cardinalities/participation, attributes including any composite/multivalued/derived ones, and identify the weak entity if any). Then convert it into a relational schema and create the tables in SQL Workbench. Send me a screenshot when it's ready and I'll review it.
+A few things I'll specifically be checking for: correct handling of the multivalued phone numbers, correct identification of the weak entity (prescription), how you model the doctor-refers-patient-to-doctor relationship (recursive-ish, involves two doctor roles), and whether your manages/works-in department relationships are cardinality-correct.
+Part 2: Query Problems (Basics → Advanced)
+
+
+Once your tables are built and populated with sample data (insert at least 5-6 rows per table so results are meaningful), work through these in order:
+
+
+A. 
+
+Insert 3 departments, 5 doctors, 8 patients, and 10 appointments (some completed, some scheduled, some cancelled).
+Write a query to list all doctors' names and specialties.
+Write a query to show all appointments scheduled for a specific date.
+
+B.
+4. List the distinct specialties among all doctors.
+5. Show doctor names aliased as "Doctor Name" and department name aliased as "Dept".
+
+
+C. 
+6. Find patients who have an appointment AND are insured (using INTERSECT or an equivalent).
+7. Find doctor IDs that appear either as a treating doctor or as a referring doctor (UNION).
+
+D. 
+8. Find all patients whose last name starts with "A".
+9. Find all medicines whose name contains "cillin" anywhere in it.
+10. Concatenate doctor first and last names into one "Full Name" column, ordered alphabetically.
+
+
+E.
+11. Find all patients who have no insurance provider on file.
+12. Find appointments that don't yet have a room assigned (if you allowed NULL there).
+
+F. 
+13. Find the total number of appointments per doctor.
+14. Find the average unit price of all medicines.
+15. Find the doctor who has completed the most appointments.
+
+
+G. 
+16. For each department, show the number of doctors — but only departments with more than 2 doctors.
+17. For each patient, show how many prescriptions they've received, only for patients with 2 or more prescriptions.
+
+H. 
+18. Find all appointments that are either "scheduled" or "cancelled" (using IN).
+19. Find all doctors hired between two specific dates.
+
+
+I.
+20. Find all patients who have never had an appointment (NOT IN subquery).
+21. Find the medicine(s) with the highest unit price (subquery with MAX).
+
+J. 
+22. Find doctors who have more appointments than the average number of appointments per doctor (correlated with an outer aggregate comparison).
+23. For each patient, find their most recent appointment date (correlated subquery referencing the outer patient ID).
+
+K.
+24. List each appointment with the patient's name and doctor's name (multi-table join).
+25. List each prescription with the medicines included and their quantities.
