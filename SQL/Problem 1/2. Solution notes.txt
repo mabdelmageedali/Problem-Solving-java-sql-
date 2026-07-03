@@ -1,0 +1,78 @@
+**First Review (Summary)**
+
+1. **Doctor Entity Issues**
+
+* Missing attributes: phone number and hire date.
+* Specialty was drawn incorrectly. If the doctor has multiple specialties, it should be represented as a single multivalued attribute (double oval). If there is only one specialty, a single normal oval is sufficient.
+
+2. **Prescription–Appointment Relationship**
+
+* The relationship was incorrectly modeled as a complex relationship.
+* It should exist only between Appointment and Prescription.
+* Since Prescription is a weak entity, the relationship must be an identifying relationship (double diamond).
+
+3. **Referral Relationship**
+
+* Using `refere_doctor_id` as an attribute is incorrect because foreign keys should not appear in an ERD.
+* The relationship should be modeled as a ternary relationship between Patient, the referring Doctor, and the referred-to Doctor, or by using role names in relationships.
+
+4. **Insurance Entity**
+
+* `policy_number` should not be the primary key of the Insurance entity.
+* Use name or an ID as the primary key.
+* `policy_number` should instead be an attribute of the relationship between Patient and Insurance.
+
+---
+
+**Second Review (Summary)**
+
+1. **Referral Main Issue**
+
+* `refere_doctor_id` is incorrectly used as an attribute.
+* The relationship should connect:
+
+  * Doctor (as the referring doctor)
+  * Patient
+  * Doctor (as the referred-to doctor)
+* The same Doctor entity participates twice with different roles, which makes it a ternary relationship (not just a recursive one).
+
+2. **Missing Constraint**
+
+* There is no indication of the unique constraint (doctor, room, date, time).
+* This should be added as a note in the ERD and implemented later as a UNIQUE constraint in SQL.
+
+3. **Minor Fixes**
+
+* Only the Department ID should be underlined.
+* The Medicine code should be the primary key.
+* The Prescription ID is a partial key, so it should have a dashed underline and indicate total participation.
+
+---
+
+**Final Clarification (Important Concept)**
+
+The referral relationship is **ternary**, not just recursive.
+
+Because the requirement is:
+"Track which doctor referred which patient to which doctor"
+
+So the relationship includes:
+
+* Referring Doctor
+* Patient
+* Referred-to Doctor
+
+Even though the Doctor entity appears twice, it is still a ternary relationship with different roles.
+
+**How to draw it:**
+
+* Use one diamond (refer) with three connections:
+
+  * Doctor (referring)
+  * Doctor (referred_to)
+  * Patient
+* Keep `date` as an attribute of the relationship.
+* Remove `refere_doctor_id`.
+
+**Cardinality:**
+All three sides are many (M), which is typical for ternary relationships.

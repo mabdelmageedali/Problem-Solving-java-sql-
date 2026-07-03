@@ -3,10 +3,29 @@ Design a database for a multi-doctor clinic with the following requirements:
 
 The clinic has several departments (e.g., Cardiology, Pediatrics). Each department has a unique name, a location, and a budget. Each department is managed by exactly one doctor, and a doctor manages at most one department.
 Each doctor has an ID, name (first/last), specialty, phone number, and hire date. Every doctor works in exactly one department, but a department has many doctors.
+
+
 Each patient has an ID, name, date of birth, gender, and a set of phone numbers (a patient may have more than one contact number). Patients don't need to belong to a department.
-A patient can have multiple appointments over time with doctors. Each appointment has a date, a time, a status (scheduled/completed/cancelled), and a room number. An appointment is with exactly one doctor and one patient. A doctor can have many appointments, and so can a patient — but no doctor can have two appointments in the same room at the same time (think about how you'd enforce this later, not necessarily in the ERD).
-After an appointment is completed, the doctor writes a prescription. A prescription only exists if tied to a specific appointment (if the appointment is deleted, the prescription should not be able to exist without it). Each prescription has an ID, a date issued, and dosage instructions.
+
+
+
+
+
+A patient can have multiple appointments over time with doctors. Each appointment has a date, a time, a status (scheduled/completed/cancelled), and a room number.
+
+ An appointment is with exactly one doctor and one patient. A doctor can have many appointments, and so can a patient — but no doctor can have two appointments in the same room at the same time (think about how you'd enforce this later, not necessarily in the ERD).
+
+
+After an appointment is completed, the doctor writes a prescription. A prescription only exists if tied to a specific appointment (if the appointment is deleted, the prescription should not be able to exist without it). 
+
+Each prescription has an ID, a date issued, and dosage instructions.
+
+
 A prescription can include multiple medicines, and the same medicine can appear in many prescriptions (with a specific quantity and duration for that particular prescription). Each medicine has a code, name, manufacturer, and unit price.
+
+
+
+
 Some doctors act as referring doctors for patients — i.e., a doctor can refer a patient to another doctor. Track which doctor referred which patient to which doctor, and the referral date.
 The clinic also tracks insurance providers. Each patient may be insured by one insurance provider (or none), and each provider insures many patients. Store the provider's name, policy number for that patient, and coverage percentage.
 
