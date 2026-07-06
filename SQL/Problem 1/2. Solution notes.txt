@@ -11,6 +11,86 @@
 * It should exist only between Appointment and Prescription.
 * Since Prescription is a weak entity, the relationship must be an identifying relationship (double diamond).
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Let us make it more easy
+
+Why didn’t we create a ternary relationship between Doctor, Appointment, and Prescription?
+
+Short Answer:
+
+Because this relationship is already fully captured using binary relationships without any loss of information.
+
+Understanding the Design Step by Step
+
+1. Real-World Scenario
+
+An Appointment:
+
+* Is associated with exactly one Doctor
+* Is associated with exactly one Patient
+
+A Prescription:
+
+* Is issued after a specific Appointment
+* Therefore, it depends on that Appointment
+
+2. Current Relationships in the Design
+
+* Appointment → Doctor (Many-to-One)
+* Prescription → Appointment (Many-to-One)
+
+Logical Outcome
+
+Even without a direct relationship between Doctor and Prescription, we can still determine which doctor issued a prescription through:
+
+Prescription → Appointment → Doctor
+
+When Do We Need a Ternary Relationship?
+
+A ternary relationship is required when:
+
+* The relationship inherently involves three entities at the same time
+* The association cannot be derived from existing binary relationships
+
+Why Not in This Case?
+
+If we introduce a ternary relationship:
+
+Doctor — Appointment — Prescription
+
+It creates several issues:
+
+1. Data Redundancy
+   The doctor is already linked to the appointment, so including it again leads to duplication.
+
+2. Unnecessary Complexity
+   Each prescription is already tied to an appointment, and the appointment already identifies the doctor. No additional information is gained.
+
+3. Violation of Clean Design Principles
+   A good database design aims for minimal redundancy and clear relationships.
+
+Golden Rule
+
+If a relationship can be derived from existing ones, do not create a new relationship.
+
+When Would a Ternary Relationship Be Appropriate?
+
+A ternary relationship would be justified if:
+
+* A prescription could be written by a doctor different from the appointment’s doctor
+* Or if a prescription were not strictly tied to an appointment
+
+Conclusion
+
+* Prescription is a weak entity dependent on Appointment
+* Appointment is associated with Doctor
+* Therefore, the indirect relationship is sufficient
+
+Introducing a ternary relationship in this case would add unnecessary complexity without providing any real benefit.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 3. **Referral Relationship**
 
 * Using `refere_doctor_id` as an attribute is incorrect because foreign keys should not appear in an ERD.
