@@ -115,9 +115,14 @@ CREATE TABLE Prescription_Contains_Medicine(
 
 
 
+USE sunrisemedicalclinic;
+ALTER TABLE Department
+MODIFY manager_id INT NULL;
 
 
-
+USE sunrisemedicalclinic;
+ALTER TABLE Patient
+MODIFY gender VARCHAR(10);
 
 
 
