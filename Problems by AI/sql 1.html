@@ -1,0 +1,1249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 Easy SQL Problems & Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:#fdfaf5; --white:#ffffff;
+      --blue-light:#e8f4fd; --blue:#3a8fd1; --blue-dark:#1f6faa;
+      --green-light:#e8f8ee; --green:#34a85a; --green-dark:#1e7e3a;
+      --amber-light:#fff8e1; --amber:#f4a918; --amber-dark:#c47d06;
+      --pink-light:#fff0f3; --pink:#e8547a;
+      --lavender-light:#f3f0ff; --lavender:#7c5cbf; --lavender-dark:#4a2f8a;
+      --teal-light:#e6faf8; --teal:#1fa8a0;
+      --orange-light:#fff4ec; --orange:#e87530; --orange-dark:#a04010;
+      --red-light:#fff0ee; --red:#d93025; --red-dark:#8b1a14;
+      --text:#2a2d3a; --muted:#6b7280; --border:#e5e9f0;
+      --shadow:0 2px 12px rgba(60,80,120,0.08); --r:12px;
+      --mono:'Fira Code',monospace; --font:'Sour Gummy',sans-serif;
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--cream);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 28px 32px 60px;
+    }
+
+    p { margin-bottom: 7px; }
+    strong { font-weight: 700; }
+
+    /* SITE HEADER */
+    .site-header {
+      border-radius: 18px;
+      padding: 26px 36px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 1.5px solid #b8d8f5;
+      background: linear-gradient(135deg, #dbeeff 0%, #ede8ff 100%);
+    }
+    .header-icon { font-size:50px; line-height:1; }
+    .header-title { font-size:30px; font-weight:800; letter-spacing:-0.3px; color: var(--blue-dark); }
+    .header-sub { font-size:18px; color:var(--muted); margin-top:4px; }
+
+    /* SECTION DIVIDERS */
+    .section-divider {
+      border-left: 5px solid;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 20px 0 16px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .sd-blue { border-color:var(--blue); background:linear-gradient(90deg,var(--blue-light),#fff); color:var(--blue-dark); }
+    .sd-green { border-color:var(--green); background:linear-gradient(90deg,var(--green-light),#fff); color:var(--green-dark); }
+    .sd-amber { border-color:var(--amber); background:linear-gradient(90deg,var(--amber-light),#fff); color:var(--amber-dark); }
+    .sd-lavender { border-color:var(--lavender); background:linear-gradient(90deg,var(--lavender-light),#fff); color:var(--lavender-dark); }
+    .sd-orange { border-color:var(--orange); background:linear-gradient(90deg,var(--orange-light),#fff); color:var(--orange-dark); }
+    .sd-teal { border-color:var(--teal); background:linear-gradient(90deg,var(--teal-light),#fff); color:var(--teal); }
+
+    /* LESSON CARDS */
+    .lesson {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .lesson-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 22px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .lh-blue { background:linear-gradient(90deg,#dbeeff,#f0f9ff); }
+    .lh-green { background:linear-gradient(90deg,#daf5e4,#f0fff5); }
+    .lh-amber { background:linear-gradient(90deg,#fff3cd,#fffdf0); }
+    .lh-lavender { background:linear-gradient(90deg,#ede8ff,#f8f5ff); }
+    .lh-teal { background:linear-gradient(90deg,#d6f5f3,#f0fffd); }
+    .lh-orange { background:linear-gradient(90deg,#ffeadb,#fff9f5); }
+    .lh-red { background:linear-gradient(90deg,#ffe5e2,#fff5f5); }
+
+    /* BADGE */
+    .badge {
+      width:30px; height:30px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0;
+    }
+    .b-blue { background:var(--blue); }
+    .b-green { background:var(--green); }
+    .b-amber { background:var(--amber); }
+    .b-lavender { background:var(--lavender); }
+    .b-teal { background:var(--teal); }
+    .b-orange { background:var(--orange); }
+    .b-red { background:var(--red); }
+
+    /* TITLE & SUBTITLE */
+    .lesson-title { font-size:20px; font-weight:800; }
+    .t-blue { color:var(--blue-dark); }
+    .t-green { color:var(--green-dark); }
+    .t-amber { color:var(--amber-dark); }
+    .t-lavender { color:var(--lavender-dark); }
+    .t-teal { color:var(--teal); }
+    .t-orange { color:var(--orange-dark); }
+    .t-red { color:var(--red-dark); }
+    .lesson-sub { font-size:15px; color:var(--muted); margin-top:2px; }
+
+    /* BODY */
+    .lesson-body { padding:20px 24px; }
+
+    /* INFO CARDS */
+    .card {
+      border-radius:10px;
+      padding:13px 16px;
+      margin-bottom:13px;
+      border-left:4px solid transparent;
+    }
+    .c-info { background:var(--blue-light); border-color:var(--blue); }
+    .c-success { background:var(--green-light); border-color:var(--green); }
+    .c-warn { background:var(--amber-light); border-color:var(--amber); }
+    .c-note { background:var(--lavender-light); border-color:var(--lavender); }
+    .c-teal { background:var(--teal-light); border-color:var(--teal); }
+    .c-orange { background:var(--orange-light); border-color:var(--orange); }
+    .c-red { background:var(--red-light); border-color:var(--red); }
+
+    /* CARD TITLE */
+    .card-title {
+      display:flex; align-items:center; gap:6px;
+      font-size:15px; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.7px;
+      margin-bottom:7px;
+    }
+    .ct-blue { color:var(--blue-dark); }
+    .ct-green { color:var(--green-dark); }
+    .ct-amber { color:var(--amber-dark); }
+    .ct-lavender { color:var(--lavender); }
+    .ct-teal { color:var(--teal); }
+    .ct-orange { color:var(--orange); }
+    .ct-red { color:var(--red-dark); }
+
+    /* GRIDS */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-bottom:13px; }
+    .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin-bottom:13px; }
+
+    /* CODE BLOCKS */
+    .code-block {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 13px;
+      border: 1px solid #d0d7e3;
+      box-shadow: 0 2px 8px rgba(60,80,120,0.10);
+    }
+    .code-header {
+      background: #e8ecf4;
+      padding: 7px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #c8d0e0;
+    }
+    .code-lang { font-family:var(--mono); font-size:13px; color:#6272a4; font-weight:600; }
+    .code-label { font-family:var(--mono); font-size:13px; background:#3a8fd1; color:#fff; padding:2px 8px; border-radius:5px; }
+    .code-body {
+      display: block;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.75;
+      background: #f8f9fc;
+      color: #24292e;
+      padding: 16px 18px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* SYNTAX TOKEN COLORS (SQL Focused) */
+    .tok-kw { color:#0000ff; font-weight:700; } /* SELECT, FROM, WHERE */
+    .tok-func { color:#795e26; font-weight:600; } /* COUNT, SUM, AVG */
+    .tok-type { color:#267f99; font-weight:600; } /* INT, VARCHAR */
+    .tok-str { color:#a31515; } /* 'String' */
+    .tok-num { color:#098658; } /* 123 */
+    .tok-comment { color:#6a9955; font-style:italic; }
+    .tok-op { color:#af00db; font-weight:700; } /* =, >, AND, OR */
+    .tok-var { color:#001080; } /* column names */
+    .tok-table { color:#001080; font-weight:600; text-decoration: underline; text-decoration-color: #ccc; } /* table names */
+
+    /* TABLES */
+    .dtable {
+      width:100%; border-collapse:collapse;
+      border-radius:10px; overflow:hidden;
+      margin-bottom:13px; font-size:16px;
+    }
+    .dtable thead tr { background:var(--blue); color:#fff; }
+    .dtable thead td { padding:9px 13px; font-weight:700; }
+    .dtable tbody tr:nth-child(odd) { background:#f4f8fd; }
+    .dtable tbody tr:nth-child(even) { background:#fff; }
+    .dtable tbody td { padding:8px 13px; border-bottom:1px solid var(--border); }
+    .dtable tbody tr:last-child td { border-bottom:none; }
+
+    /* LISTS */
+    ul.sl { list-style:none; margin:0; padding:0; }
+    ul.sl li {
+      padding: 4px 0 4px 20px;
+      position: relative;
+      font-size: 18px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    ul.sl li:last-child { border-bottom:none; }
+    ul.sl li::before {
+      content:'▸';
+      position:absolute; left:0;
+      color:var(--blue); font-size:15px; top:7px;
+    }
+
+    /* INLINE CODE */
+    code.ic {
+      font-family:var(--mono); font-size:16px;
+      background:#eef4fb; padding:1px 5px;
+      border-radius:4px; color:var(--blue-dark);
+    }
+    code.ic-green { background:var(--green-light); color:var(--green-dark); }
+    code.ic-amber { background:var(--amber-light); color:var(--amber-dark); }
+    code.ic-red { background:var(--red-light); color:var(--red-dark); }
+    code.ic-purple { background:var(--lavender-light); color:var(--lavender-dark); }
+
+    /* STEP BOXES */
+    .step-box {
+      display:flex; align-items:flex-start; gap:12px;
+      padding:10px 14px; border-radius:10px; margin-bottom:10px;
+      border:1.5px solid;
+    }
+    .step-box.blue { background:var(--blue-light); border-color:#b8d8f5; }
+    .step-box.green { background:var(--green-light); border-color:#a0d8b0; }
+    .step-box.amber { background:var(--amber-light); border-color:#f4d06e; }
+    .step-box.red { background:var(--red-light); border-color:#f4b0aa; }
+    .step-num {
+      width:26px; height:26px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0; margin-top:2px;
+    }
+    .sn-blue { background:var(--blue); }
+    .sn-green { background:var(--green); }
+    .sn-amber { background:var(--amber); }
+    .sn-red { background:var(--red); }
+    .sn-lavender { background:var(--lavender); }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <header class="site-header">
+      <div class="header-icon">🗄️</div>
+      <div>
+        <div class="header-title">30 Easy SQL Problems & Solutions</div>
+        <div class="header-sub">Beginner Practice · Queries, Joins, Aggregates & Updates · Problems 1–30</div>
+      </div>
+    </header>
+
+    <!-- REFERENCE DATA SECTION -->
+    <div class="section-divider sd-blue">📂 Reference Data Tables</div>
+    
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">📊</div>
+        <div>
+          <div class="lesson-title t-blue">Dataset Overview</div>
+          <div class="lesson-sub">Use these tables to solve all 30 problems below</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        
+        <div class="card c-info">
+          <div class="card-title ct-blue">📋 Table: employees</div>
+          <p>Contains employee details including ID, name, department, salary, city, hire date, and commission.</p>
+        </div>
+
+        <table class="dtable">
+          <thead>
+            <tr>
+              <td>id</td><td>name</td><td>department</td><td>salary</td><td>city</td><td>hire_date</td><td>commission</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Alice</td><td>HR</td><td>50000</td><td>New York</td><td>2020-01-15</td><td>NULL</td></tr>
+            <tr><td>2</td><td>Bob</td><td>IT</td><td>70000</td><td>Chicago</td><td>2019-03-10</td><td>5000</td></tr>
+            <tr><td>3</td><td>Charlie</td><td>IT</td><td>80000</td><td>New York</td><td>2018-06-20</td><td>NULL</td></tr>
+            <tr><td>4</td><td>Diana</td><td>HR</td><td>55000</td><td>Boston</td><td>2021-02-01</td><td>NULL</td></tr>
+            <tr><td>5</td><td>Eve</td><td>Sales</td><td>60000</td><td>Chicago</td><td>2020-07-15</td><td>10000</td></tr>
+            <tr><td>6</td><td>Frank</td><td>Sales</td><td>62000</td><td>Boston</td><td>2022-01-10</td><td>8000</td></tr>
+            <tr><td>7</td><td>Grace</td><td>IT</td><td>90000</td><td>New York</td><td>2017-05-05</td><td>NULL</td></tr>
+            <tr><td>8</td><td>Henry</td><td>Sales</td><td>NULL</td><td>Chicago</td><td>2023-01-01</td><td>2000</td></tr>
+          </tbody>
+        </table>
+
+        <div class="card c-info" style="margin-top:13px;">
+          <div class="card-title ct-blue">📋 Table: departments</div>
+          <p>Contains department details including ID, name, manager, and location.</p>
+        </div>
+
+        <table class="dtable">
+          <thead>
+            <tr>
+              <td>dept_id</td><td>dept_name</td><td>manager</td><td>location</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>HR</td><td>Alice</td><td>Building A</td></tr>
+            <tr><td>2</td><td>IT</td><td>Grace</td><td>Building B</td></tr>
+            <tr><td>3</td><td>Sales</td><td>Eve</td><td>Building C</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-blue">📂 Part 1 — Basic Selection & Filtering (Problems 1–5)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 1 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">1</div>
+        <div>
+          <div class="lesson-title t-blue">👀 Select All Employees</div>
+          <div class="lesson-sub">Retrieve all columns and rows from a table</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Retrieve <strong>all</strong> columns and rows from the <code class="ic">employees</code> table.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT * FROM employees;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>The asterisk <code class="ic">*</code> is a wildcard meaning "select every column". Useful for exploration, but avoid in production code for performance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 2 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">2</div>
+        <div>
+          <div class="lesson-title t-green">🔍 Filter by Department</div>
+          <div class="lesson-sub">Use WHERE to filter specific rows</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find the names and salaries of all employees who work in the <strong>IT</strong> department.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, salary
+FROM employees
+WHERE department = 'IT';</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>salary</td></tr></thead>
+          <tbody>
+            <tr><td>Bob</td><td>70000</td></tr>
+            <tr><td>Charlie</td><td>80000</td></tr>
+            <tr><td>Grace</td><td>90000</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>The <code class="ic">WHERE</code> clause filters records before they are returned. String comparisons are case-sensitive in some databases.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 3 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">3</div>
+        <div>
+          <div class="lesson-title t-amber">⬇️ Sort by Salary</div>
+          <div class="lesson-sub">Order results descending</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List all employees sorted by salary from <strong>highest to lowest</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, salary
+FROM employees
+ORDER BY salary DESC;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">ORDER BY</code> sorts the result set. <code class="ic">DESC</code> means descending (high to low). Default is <code class="ic">ASC</code> (low to high).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 4 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">4</div>
+        <div>
+          <div class="lesson-title t-lavender">🧮 Count per Department</div>
+          <div class="lesson-sub">Group data and count occurrences</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>How many employees work in each department?</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT department, COUNT(*) AS employee_count
+FROM employees
+GROUP BY department;</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>department</td><td>employee_count</td></tr></thead>
+          <tbody>
+            <tr><td>HR</td><td>2</td></tr>
+            <tr><td>IT</td><td>3</td></tr>
+            <tr><td>Sales</td><td>3</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">GROUP BY</code> collapses rows into groups. Aggregate functions like <code class="ic">COUNT()</code> then calculate values for each group.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 5 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">5</div>
+        <div>
+          <div class="lesson-title t-teal">🏆 Highest Earner</div>
+          <div class="lesson-sub">Find the maximum value</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>What is the maximum salary in the company, and who earns it?</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1;</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>salary</td></tr></thead>
+          <tbody>
+            <tr><td>Grace</td><td>90000</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>Sorting by salary descending and taking the first row (<code class="ic">LIMIT 1</code>) is often faster than using subqueries for simple "top 1" questions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-green">📂 Part 2 — Comparison & Patterns (Problems 6–10)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 6 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">6</div>
+        <div>
+          <div class="lesson-title t-orange">💰 Salary Threshold</div>
+          <div class="lesson-sub">Filter using greater than operator</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find all employees who earn <strong>more than 60,000</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, department, salary
+FROM employees
+WHERE salary > 60000;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>Standard comparison operators (<code class="ic">&gt;</code>, <code class="ic">&lt;</code>, <code class="ic">&gt;=</code>, <code class="ic">&lt;=</code>) work on numbers and dates.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 7 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">7</div>
+        <div>
+          <div class="lesson-title t-red">🌍 Unique Cities</div>
+          <div class="lesson-sub">Remove duplicate values</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List all <strong>distinct</strong> cities where employees are located.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT DISTINCT city
+FROM employees;</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>city</td></tr></thead>
+          <tbody>
+            <tr><td>New York</td></tr>
+            <tr><td>Chicago</td></tr>
+            <tr><td>Boston</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">DISTINCT</code> filters out duplicate rows in the result set, returning only unique combinations of the selected columns.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 8 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">8</div>
+        <div>
+          <div class="lesson-title t-blue">🔤 Name Pattern Matching</div>
+          <div class="lesson-sub">Use LIKE for wildcards</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find all employees whose name starts with the letter <strong>"A"</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, department
+FROM employees
+WHERE name LIKE 'A%';</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>department</td></tr></thead>
+          <tbody>
+            <tr><td>Alice</td><td>HR</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">%</code> is a wildcard representing zero or more characters. <code class="ic">'A%'</code> means "starts with A".</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 9 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">9</div>
+        <div>
+          <div class="lesson-title t-green">🤝 Join Employees & Departments</div>
+          <div class="lesson-sub">Combine two tables on a common column</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Show each employee's name along with their department's <strong>manager</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT e.name AS employee, d.dept_name, d.manager
+FROM employees e
+JOIN departments d ON e.department = d.dept_name;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">JOIN</code> (Inner Join) returns rows when there is a match in both tables based on the <code class="ic">ON</code> condition.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 10 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">10</div>
+        <div>
+          <div class="lesson-title t-amber">📈 High Average Departments</div>
+          <div class="lesson-sub">Filter groups using HAVING</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find departments where the <strong>average salary</strong> is greater than 60,000.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 60000;</span>
+        </div>
+        <table class="dtable">
+          <thead><tr><td>department</td><td>avg_salary</td></tr></thead>
+          <tbody>
+            <tr><td>IT</td><td>80000</td></tr>
+            <tr><td>Sales</td><td>61000</td></tr>
+          </tbody>
+        </table>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">WHERE</code> filters rows <em>before</em> grouping. <code class="ic">HAVING</code> filters groups <em>after</em> aggregation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-lavender">📂 Part 3 — Advanced Filtering & NULLs (Problems 11–15)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 11 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">11</div>
+        <div>
+          <div class="lesson-title t-lavender">❓ Handle NULL Commissions</div>
+          <div class="lesson-sub">Check for missing values</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find all employees who <strong>do not</strong> receive a commission.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, department, commission
+FROM employees
+WHERE commission IS NULL;</span>
+        </div>
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Important</div>
+          <p>Never use <code class="ic">= NULL</code>. It always returns false. Always use <code class="ic">IS NULL</code> or <code class="ic">IS NOT NULL</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 12 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">12</div>
+        <div>
+          <div class="lesson-title t-teal">➕ Calculate Total Income</div>
+          <div class="lesson-sub">Handle NULLs in math with COALESCE</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Display name and total income (Salary + Commission). Treat NULL commission as 0.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT 
+    name, 
+    salary + COALESCE(commission, 0) AS total_income
+FROM employees;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">COALESCE(val, 0)</code> returns the value if it exists, or 0 if it is NULL. This prevents the whole sum from becoming NULL.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 13 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">13</div>
+        <div>
+          <div class="lesson-title t-orange">📅 Hire Date Range</div>
+          <div class="lesson-sub">Filter dates using BETWEEN</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find employees hired between <strong>Jan 1, 2020</strong> and <strong>Dec 31, 2020</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, hire_date
+FROM employees
+WHERE hire_date BETWEEN '2020-01-01' AND '2020-12-31';</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">BETWEEN</code> is inclusive (includes the start and end dates). Equivalent to <code class="ic">&gt;= X AND &lt;= Y</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 14 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">14</div>
+        <div>
+          <div class="lesson-title t-red">🏷️ Column Aliases</div>
+          <div class="lesson-sub">Rename columns for readability</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Select name and salary, renaming them to <strong>"Employee Name"</strong> and <strong>"Yearly Salary"</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT 
+    name AS "Employee Name", 
+    salary AS "Yearly Salary"
+FROM employees;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>Use <code class="ic">AS</code> to create an alias. Quotes are required if the alias contains spaces.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 15 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">15</div>
+        <div>
+          <div class="lesson-title t-blue">🔝 Top 3 Earners</div>
+          <div class="lesson-sub">Limit the number of results</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List the <strong>top 3</strong> highest-paid employees.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution (MySQL/Postgres)</span></div><span class="code-body">SELECT name, salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 3;</span>
+        </div>
+        <div class="card c-info">
+          <div class="card-title ct-blue">ℹ️ SQL Server Variant</div>
+          <p>In SQL Server, use <code class="ic">SELECT TOP 3 name, salary ...</code> instead of LIMIT.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-orange">📂 Part 4 — Logic, Strings & Aggregates (Problems 16–20)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 16 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">16</div>
+        <div>
+          <div class="lesson-title t-green">🎯 Multiple Conditions (IN)</div>
+          <div class="lesson-sub">Simplify OR logic</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find employees in either <strong>HR</strong> or <strong>Sales</strong>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, department
+FROM employees
+WHERE department IN ('HR', 'Sales');</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">IN</code> is cleaner than writing <code class="ic">dept = 'HR' OR dept = 'Sales'</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 17 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">17</div>
+        <div>
+          <div class="lesson-title t-amber">🔗 String Concatenation</div>
+          <div class="lesson-sub">Join text columns together</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Create a sentence: "Alice works in New York".</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution (MySQL/Postgres)</span></div><span class="code-body">SELECT CONCAT(name, ' works in ', city) AS info
+FROM employees;</span>
+        </div>
+        <div class="card c-info">
+          <div class="card-title ct-blue">ℹ️ SQL Server Variant</div>
+          <p>Use the plus operator: <code class="ic">SELECT name + ' works in ' + city ...</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 18 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">18</div>
+        <div>
+          <div class="lesson-title t-lavender">📊 Full Statistics</div>
+          <div class="lesson-sub">Multiple aggregates in one query</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Get the Min, Max, Avg, and Sum of all salaries.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT 
+    MIN(salary) AS lowest,
+    MAX(salary) AS highest,
+    AVG(salary) AS average,
+    SUM(salary) AS total_payroll
+FROM employees;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p>You can run multiple aggregate functions in a single SELECT statement without GROUP BY to get stats for the whole table.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 19 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">19</div>
+        <div>
+          <div class="lesson-title t-teal">↩️ Left Join (All Depts)</div>
+          <div class="lesson-sub">Keep unmatched rows from the left table</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List <strong>all departments</strong> and their employees. Include departments even if they have no employees.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT d.dept_name, e.name
+FROM departments d
+LEFT JOIN employees e ON d.dept_name = e.department;</span>
+        </div>
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Concept</div>
+          <p><code class="ic">LEFT JOIN</code> ensures every row from the left table (<code class="ic">departments</code>) appears, filling missing matches with NULL.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 20 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">20</div>
+        <div>
+          <div class="lesson-title t-red">✏️ Update Salaries</div>
+          <div class="lesson-sub">Modify existing data safely</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Give a <strong>10% raise</strong> to all IT employees.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">UPDATE employees
+SET salary = salary * 1.10
+WHERE department = 'IT';</span>
+        </div>
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Danger Zone</div>
+          <p>Always include a <code class="ic">WHERE</code> clause in UPDATE statements, or you will update <strong>every</strong> row in the table!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-teal">📂 Part 5 — Bonus Challenges (Problems 21–30)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 21 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">21</div>
+        <div>
+          <div class="lesson-title t-blue">🔢 Count Nulls Explicitly</div>
+          <div class="lesson-sub">Conditional counting</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Count how many employees have a NULL salary.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT COUNT(*) 
+FROM employees 
+WHERE salary IS NULL;</span>
+        </div>
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Result</div>
+          <p><code class="ic">1</code> (Henry)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 22 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">22</div>
+        <div>
+          <div class="lesson-title t-green">📉 Lowest Paid per Dept</div>
+          <div class="lesson-sub">Min with Group By</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find the lowest salary in each department.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT department, MIN(salary) as min_sal
+FROM employees
+GROUP BY department;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 23 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">23</div>
+        <div>
+          <div class="lesson-title t-amber">🔠 Order by Multiple Columns</div>
+          <div class="lesson-sub">Secondary sorting</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List employees sorted by <strong>Department</strong> (A-Z), then by <strong>Salary</strong> (High-Low) within that department.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, department, salary
+FROM employees
+ORDER BY department ASC, salary DESC;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 24 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">24</div>
+        <div>
+          <div class="lesson-title t-lavender">🔄 Case Statement</div>
+          <div class="lesson-sub">Create custom categories</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Label employees as "High Earner" if salary > 70k, otherwise "Standard".</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, salary,
+    CASE 
+        WHEN salary > 70000 THEN 'High Earner'
+        ELSE 'Standard'
+    END AS status
+FROM employees;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 25 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">25</div>
+        <div>
+          <div class="lesson-title t-teal">📅 Extract Year from Date</div>
+          <div class="lesson-sub">Date functions</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List names and the year they were hired.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution (MySQL)</span></div><span class="code-body">SELECT name, YEAR(hire_date) as hire_year
+FROM employees;</span>
+        </div>
+        <div class="card c-info">
+          <div class="card-title ct-blue">ℹ️ Variants</div>
+          <p>Postgres: <code class="ic">EXTRACT(YEAR FROM hire_date)</code>. SQL Server: <code class="ic">YEAR(hire_date)</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 26 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">26</div>
+        <div>
+          <div class="lesson-title t-orange">🧮 Round Average Salary</div>
+          <div class="lesson-sub">Formatting numbers</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Calculate the average salary rounded to 2 decimal places.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT ROUND(AVG(salary), 2) as avg_sal
+FROM employees;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 27 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">27</div>
+        <div>
+          <div class="lesson-title t-red">🗑️ Delete Specific Row</div>
+          <div class="lesson-sub">Remove data safely</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Delete the employee named "Henry".</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">DELETE FROM employees
+WHERE name = 'Henry';</span>
+        </div>
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Warning</div>
+          <p>Like UPDATE, always use WHERE with DELETE, or you will wipe the entire table.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 28 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">28</div>
+        <div>
+          <div class="lesson-title t-blue">🔍 Search City Ending With "o"</div>
+          <div class="lesson-sub">Wildcard at the start</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>Find employees living in cities ending with the letter "o" (e.g., Chicago, Boston).</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, city
+FROM employees
+WHERE city LIKE '%o';</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 29 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">29</div>
+        <div>
+          <div class="lesson-title t-green">📊 Count by City</div>
+          <div class="lesson-sub">Group by location</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>How many employees live in each city?</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT city, COUNT(*) as count
+FROM employees
+GROUP BY city;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM 30 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">30</div>
+        <div>
+          <div class="lesson-title t-amber">🏅 Rank Employees</div>
+          <div class="lesson-sub">Simple ordering limit</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem</div>
+          <p>List the names of the bottom 3 earners (lowest salaries).</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">sql</span><span class="code-label">Solution</span></div><span class="code-body">SELECT name, salary
+FROM employees
+ORDER BY salary ASC
+LIMIT 3;</span>
+        </div>
+      </div>
+    </section>
+
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SYNTAX HIGHLIGHTER (SQL Optimized)
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+  (function(){
+    function escapeHTML(s){
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function highlight(raw){
+      var out = '';
+      var i   = 0;
+      var len = raw.length;
+
+      while(i < len){
+
+        // Line comment
+        if(raw[i]==='-' && raw[i+1]==='-'){
+          var end = raw.indexOf('\n', i);
+          if(end===-1) end = len;
+          out += '<span class="tok-comment">'+escapeHTML(raw.slice(i,end))+'</span>';
+          i = end;
+          continue;
+        }
+
+        // String literals
+        if(raw[i]==="'"){
+          var j = i+1;
+          while(j < len){ if(raw[j]==='\\'){j+=2;continue;} if(raw[j]==="'"){j++;break;} j++; }
+          out += '<span class="tok-str">'+escapeHTML(raw.slice(i,j))+'</span>';
+          i = j;
+          continue;
+        }
+
+        // Identifiers / Keywords
+        if(/[a-zA-Z_$]/.test(raw[i])){
+          var j = i;
+          while(j < len && /[a-zA-Z0-9_$]/.test(raw[j])) j++;
+          var word = raw.slice(i,j);
+          var lower = word.toLowerCase();
+          var esc  = escapeHTML(word);
+
+          // SQL Keywords
+          if(/^(select|from|where|group|by|order|having|limit|join|on|left|right|inner|outer|union|all|distinct|as|case|when|then|else|end|insert|into|values|update|set|delete|create|table|drop|alter|and|or|not|null|is|in|between|like|asc|desc)$/.test(lower)){
+            out += '<span class="tok-kw">'+esc+'</span>';
+          
+          // Functions
+          } else if(/^(count|sum|avg|min|max|round|concat|coalesce|isnull|year|month|day|cast|convert|upper|lower|trim|length|substr)$/.test(lower)){
+             out += '<span class="tok-func">'+esc+'</span>';
+
+          // Booleans / Null literal
+          } else if(/^(true|false|null)$/.test(lower)){
+            out += '<span class="tok-kw">'+esc+'</span>';
+
+          // Numbers
+          } else if(/^[0-]+$/.test(word)){
+             out += '<span class="tok-num">'+esc+'</span>';
+
+          // Default Variable/Column
+          } else {
+            out += '<span class="tok-var">'+esc+'</span>';
+          }
+          i = j;
+          continue;
+        }
+
+        // Numbers standalone
+        if(/[0-9]/.test(raw[i])){
+          var j = i;
+          while(j < len && /[0-9\.]/.test(raw[j])) j++;
+          out += '<span class="tok-num">'+escapeHTML(raw.slice(i,j))+'</span>';
+          i = j;
+          continue;
+        }
+
+        // Operators
+        if(/[=<>!+\-*\/]/.test(raw[i])){
+           out += '<span class="tok-op">'+escapeHTML(raw[i])+'</span>';
+           i++;
+           continue;
+        }
+
+        out += escapeHTML(raw[i]);
+        i++;
+      }
+      return out;
+    }
+
+    document.querySelectorAll('.code-body').forEach(function(el){
+      el.innerHTML = highlight(el.textContent);
+    });
+  })();
+  </script>
+
+</body>
+</html>

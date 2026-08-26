@@ -1,0 +1,1633 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>20 Easy Java Problems & Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:#fdfaf5; --white:#ffffff;
+      --blue-light:#e8f4fd; --blue:#3a8fd1; --blue-dark:#1f6faa;
+      --green-light:#e8f8ee; --green:#34a85a; --green-dark:#1e7e3a;
+      --amber-light:#fff8e1; --amber:#f4a918; --amber-dark:#c47d06;
+      --pink-light:#fff0f3; --pink:#e8547a;
+      --lavender-light:#f3f0ff; --lavender:#7c5cbf; --lavender-dark:#4a2f8a;
+      --teal-light:#e6faf8; --teal:#1fa8a0;
+      --orange-light:#fff4ec; --orange:#e87530; --orange-dark:#a04010;
+      --red-light:#fff0ee; --red:#d93025; --red-dark:#8b1a14;
+      --text:#2a2d3a; --muted:#6b7280; --border:#e5e9f0;
+      --shadow:0 2px 12px rgba(60,80,120,0.08); --r:12px;
+      --mono:'Fira Code',monospace; --font:'Sour Gummy',sans-serif;
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--cream);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 28px 32px 60px;
+    }
+
+    p { margin-bottom: 7px; }
+    strong { font-weight: 700; }
+
+    /* SITE HEADER */
+    .site-header {
+      border-radius: 18px;
+      padding: 26px 36px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 1.5px solid #b8d8f5;
+      background: linear-gradient(135deg, #dbeeff 0%, #ede8ff 100%);
+    }
+    .header-icon { font-size:50px; line-height:1; }
+    .header-title { font-size:30px; font-weight:800; letter-spacing:-0.3px; color: var(--blue-dark); }
+    .header-sub { font-size:18px; color:var(--muted); margin-top:4px; }
+
+    /* SECTION DIVIDERS */
+    .section-divider {
+      border-left: 5px solid;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 20px 0 16px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .sd-blue { border-color:var(--blue); background:linear-gradient(90deg,var(--blue-light),#fff); color:var(--blue-dark); }
+    .sd-green { border-color:var(--green); background:linear-gradient(90deg,var(--green-light),#fff); color:var(--green-dark); }
+    .sd-amber { border-color:var(--amber); background:linear-gradient(90deg,var(--amber-light),#fff); color:var(--amber-dark); }
+    .sd-lavender { border-color:var(--lavender); background:linear-gradient(90deg,var(--lavender-light),#fff); color:var(--lavender-dark); }
+    .sd-orange { border-color:var(--orange); background:linear-gradient(90deg,var(--orange-light),#fff); color:var(--orange-dark); }
+
+    /* LESSON CARDS */
+    .lesson {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .lesson-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 22px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .lh-blue { background:linear-gradient(90deg,#dbeeff,#f0f9ff); }
+    .lh-green { background:linear-gradient(90deg,#daf5e4,#f0fff5); }
+    .lh-amber { background:linear-gradient(90deg,#fff3cd,#fffdf0); }
+    .lh-lavender { background:linear-gradient(90deg,#ede8ff,#f8f5ff); }
+    .lh-teal { background:linear-gradient(90deg,#d6f5f3,#f0fffd); }
+    .lh-orange { background:linear-gradient(90deg,#ffeadb,#fff9f5); }
+    .lh-red { background:linear-gradient(90deg,#ffe5e2,#fff5f5); }
+
+    /* BADGE */
+    .badge {
+      width:30px; height:30px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0;
+    }
+    .b-blue { background:var(--blue); }
+    .b-green { background:var(--green); }
+    .b-amber { background:var(--amber); }
+    .b-lavender { background:var(--lavender); }
+    .b-teal { background:var(--teal); }
+    .b-orange { background:var(--orange); }
+    .b-red { background:var(--red); }
+
+    /* TITLE & SUBTITLE */
+    .lesson-title { font-size:20px; font-weight:800; }
+    .t-blue { color:var(--blue-dark); }
+    .t-green { color:var(--green-dark); }
+    .t-amber { color:var(--amber-dark); }
+    .t-lavender { color:var(--lavender-dark); }
+    .t-teal { color:var(--teal); }
+    .t-orange { color:var(--orange-dark); }
+    .t-red { color:var(--red-dark); }
+    .lesson-sub { font-size:15px; color:var(--muted); margin-top:2px; }
+
+    /* BODY */
+    .lesson-body { padding:20px 24px; }
+
+    /* INFO CARDS */
+    .card {
+      border-radius:10px;
+      padding:13px 16px;
+      margin-bottom:13px;
+      border-left:4px solid transparent;
+    }
+    .c-info { background:var(--blue-light); border-color:var(--blue); }
+    .c-success { background:var(--green-light); border-color:var(--green); }
+    .c-warn { background:var(--amber-light); border-color:var(--amber); }
+    .c-note { background:var(--lavender-light); border-color:var(--lavender); }
+    .c-teal { background:var(--teal-light); border-color:var(--teal); }
+    .c-orange { background:var(--orange-light); border-color:var(--orange); }
+    .c-red { background:var(--red-light); border-color:var(--red); }
+
+    /* CARD TITLE */
+    .card-title {
+      display:flex; align-items:center; gap:6px;
+      font-size:15px; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.7px;
+      margin-bottom:7px;
+    }
+    .ct-blue { color:var(--blue-dark); }
+    .ct-green { color:var(--green-dark); }
+    .ct-amber { color:var(--amber-dark); }
+    .ct-lavender { color:var(--lavender); }
+    .ct-teal { color:var(--teal); }
+    .ct-orange { color:var(--orange); }
+    .ct-red { color:var(--red-dark); }
+
+    /* GRIDS */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-bottom:13px; }
+    .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin-bottom:13px; }
+
+    /* CODE BLOCKS */
+    .code-block {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 13px;
+      border: 1px solid #d0d7e3;
+      box-shadow: 0 2px 8px rgba(60,80,120,0.10);
+    }
+    .code-header {
+      background: #e8ecf4;
+      padding: 7px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #c8d0e0;
+    }
+    .code-lang { font-family:var(--mono); font-size:13px; color:#6272a4; font-weight:600; }
+    .code-label { font-family:var(--mono); font-size:13px; background:#3a8fd1; color:#fff; padding:2px 8px; border-radius:5px; }
+    .code-body {
+      display: block;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.75;
+      background: #f8f9fc;
+      color: #24292e;
+      padding: 16px 18px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* SYNTAX TOKEN COLORS */
+    .tok-kw { color:#0000ff; font-weight:700; }
+    .tok-ctrl { color:#af00db; font-weight:700; }
+    .tok-type { color:#267f99; font-weight:600; }
+    .tok-str { color:#a31515; }
+    .tok-num { color:#098658; }
+    .tok-comment { color:#6a9955; font-style:italic; }
+    .tok-method { color:#795e26; }
+    .tok-bool { color:#0000ff; font-weight:700; }
+    .tok-sys { color:#001080; font-weight:600; }
+    .tok-var { color:#001080; }
+    .tok-hi { background:#fff8c5; border-radius:3px; padding:0 2px; }
+
+    /* TABLES */
+    .dtable {
+      width:100%; border-collapse:collapse;
+      border-radius:10px; overflow:hidden;
+      margin-bottom:13px; font-size:16px;
+    }
+    .dtable thead tr { background:var(--blue); color:#fff; }
+    .dtable thead td { padding:9px 13px; font-weight:700; }
+    .dtable tbody tr:nth-child(odd) { background:#f4f8fd; }
+    .dtable tbody tr:nth-child(even) { background:#fff; }
+    .dtable tbody td { padding:8px 13px; border-bottom:1px solid var(--border); }
+    .dtable tbody tr:last-child td { border-bottom:none; }
+
+    /* LISTS */
+    ul.sl { list-style:none; margin:0; padding:0; }
+    ul.sl li {
+      padding: 4px 0 4px 20px;
+      position: relative;
+      font-size: 18px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    ul.sl li:last-child { border-bottom:none; }
+    ul.sl li::before {
+      content:'▸';
+      position:absolute; left:0;
+      color:var(--blue); font-size:15px; top:7px;
+    }
+
+    /* INLINE CODE */
+    code.ic {
+      font-family:var(--mono); font-size:16px;
+      background:#eef4fb; padding:1px 5px;
+      border-radius:4px; color:var(--blue-dark);
+    }
+    code.ic-green { background:var(--green-light); color:var(--green-dark); }
+    code.ic-amber { background:var(--amber-light); color:var(--amber-dark); }
+    code.ic-red { background:var(--red-light); color:var(--red-dark); }
+    code.ic-purple { background:var(--lavender-light); color:var(--lavender-dark); }
+
+    /* STEP BOXES */
+    .step-box {
+      display:flex; align-items:flex-start; gap:12px;
+      padding:10px 14px; border-radius:10px; margin-bottom:10px;
+      border:1.5px solid;
+    }
+    .step-box.blue { background:var(--blue-light); border-color:#b8d8f5; }
+    .step-box.green { background:var(--green-light); border-color:#a0d8b0; }
+    .step-box.amber { background:var(--amber-light); border-color:#f4d06e; }
+    .step-box.red { background:var(--red-light); border-color:#f4b0aa; }
+    .step-num {
+      width:26px; height:26px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0; margin-top:2px;
+    }
+    .sn-blue { background:var(--blue); }
+    .sn-green { background:var(--green); }
+    .sn-amber { background:var(--amber); }
+    .sn-red { background:var(--red); }
+    .sn-lavender { background:var(--lavender); }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <header class="site-header">
+      <div class="header-icon">☕</div>
+      <div>
+        <div class="header-title">20 Easy Java Problems & Solutions</div>
+        <div class="header-sub">Beginner Practice · Loops, Strings, Arrays & Logic · Problems 1–20</div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-blue">📂 Part 1 — Conditionals & Basic Logic (Problems 1–5)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 1 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">1</div>
+        <div>
+          <div class="lesson-title t-blue">🔢 Check if a Number is Even or Odd</div>
+          <div class="lesson-sub">Use the modulo operator to determine parity</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Write a program that checks whether a given integer is <strong>even</strong> or <strong>odd</strong>.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>The <strong>modulo operator</strong> <code class="ic">%</code> returns the remainder of a division. If <code class="ic">num % 2 == 0</code>, the number is even; otherwise, it's odd.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class EvenOdd {
+    public static void main(String[] args) {
+        int num = 7;
+
+        if (num % 2 == 0) {
+            System.out.println(num + " is Even.");
+        } else {
+            System.out.println(num + " is Odd.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Sample Output (num = 7)</div>
+            <p><code class="ic">7 is Odd.</code></p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Sample Output (num = 10)</div>
+            <p><code class="ic">10 is Even.</code></p>
+          </div>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The <code class="ic">%</code> operator is fundamental for checking divisibility in Java. It's used in many patterns including leap year checks and cycling through values.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 2 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">2</div>
+        <div>
+          <div class="lesson-title t-green">🏆 Find the Largest of Three Numbers</div>
+          <div class="lesson-sub">Compare three integers using if-else chains</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Given three numbers <code class="ic">a</code>, <code class="ic">b</code>, and <code class="ic">c</code>, find and print the <strong>largest</strong> one.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>Use an <strong>if-else if-else</strong> chain. Each branch checks whether a particular variable is greater than or equal to both of the others.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class LargestNumber {
+    public static void main(String[] args) {
+        int a = 15, b = 25, c = 10;
+
+        if (a >= b && a >= c) {
+            System.out.println(a + " is the largest.");
+        } else if (b >= a && b >= c) {
+            System.out.println(b + " is the largest.");
+        } else {
+            System.out.println(c + " is the largest.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">25 is the largest.</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Chained <code class="ic">if-else</code> comparisons handle multi-way decisions. For more than three values, consider using <code class="ic">Math.max()</code> or an array-based approach.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 3 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">3</div>
+        <div>
+          <div class="lesson-title t-amber">🔁 Calculate the Factorial of a Number</div>
+          <div class="lesson-sub">Multiply all positive integers from 1 to N using a loop</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Calculate the <strong>factorial</strong> of a given positive integer N. Recall that N! = N × (N−1) × … × 1.</p>
+        </div>
+
+        <div class="card c-orange">
+          <div class="card-title ct-orange">⚙️ Algorithm</div>
+          <ul class="sl">
+            <li>Initialize a variable <code class="ic">factorial = 1</code></li>
+            <li>Loop from <code class="ic">i = 1</code> to <code class="ic">num</code>, multiplying <code class="ic">factorial *= i</code> each time</li>
+            <li>After the loop, <code class="ic">factorial</code> holds the result</li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class Factorial {
+    public static void main(String[] args) {
+        int num = 5;
+        long factorial = 1;
+
+        for (int i = 1; i <= num; i++) {
+            factorial *= i; // factorial = factorial * i
+        }
+
+        System.out.println("Factorial of " + num + " is: " + factorial);
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">Factorial of 5 is: 120</code></p>
+        </div>
+
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Common Mistake</div>
+          <p>Using <code class="ic">int</code> instead of <code class="ic">long</code> for the result. Factorials grow extremely fast — <code class="ic">13!</code> already exceeds <code class="ic">int</code> range.</p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Factorial problems are a classic use of <code class="ic">for</code> loops and demonstrate how quickly values can grow, requiring larger data types.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 4 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">4</div>
+        <div>
+          <div class="lesson-title t-lavender">🔄 Reverse a String</div>
+          <div class="lesson-sub">Build a reversed string by iterating from end to start</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Write a method to <strong>reverse</strong> a given string without using built-in reverse functions.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>Use <code class="ic">charAt(i)</code> to access individual characters. Loop from the last index down to 0, appending each character to a new string.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class ReverseString {
+    public static void main(String[] args) {
+        String original = "Hello World";
+        String reversed = "";
+
+        for (int i = original.length() - 1; i >= 0; i--) {
+            reversed += original.charAt(i);
+        }
+
+        System.out.println("Original: " + original);
+        System.out.println("Reversed: " + reversed);
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-note" style="margin-bottom:0;">
+            <div class="card-title ct-lavender">📥 Input</div>
+            <p><code class="ic">"Hello World"</code></p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Output</div>
+            <p><code class="ic">"dlroW olleH"</code></p>
+          </div>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>String concatenation in a loop works for small inputs. For large strings, use <code class="ic">StringBuilder</code> for better performance.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 5 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">5</div>
+        <div>
+          <div class="lesson-title t-teal">🪞 Check if a String is a Palindrome</div>
+          <div class="lesson-sub">Compare characters from both ends moving inward</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>A <strong>palindrome</strong> reads the same forwards and backwards (e.g., <code class="ic">"radar"</code>, <code class="ic">"madam"</code>). Check if a given string is a palindrome.</p>
+        </div>
+
+        <div class="card c-orange">
+          <div class="card-title ct-orange">⚙️ Algorithm</div>
+          <ul class="sl">
+            <li>Set two pointers: <code class="ic">left = 0</code> and <code class="ic">right = length - 1</code></li>
+            <li>Compare characters at <code class="ic">left</code> and <code class="ic">right</code></li>
+            <li>If any pair mismatches, it's not a palindrome</li>
+            <li>Move inward until <code class="ic">left >= right</code></li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class PalindromeCheck {
+    public static void main(String[] args) {
+        String str = "radar";
+        boolean isPalindrome = true;
+
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+
+        if (isPalindrome) {
+            System.out.println(str + " is a palindrome.");
+        } else {
+            System.out.println(str + " is NOT a palindrome.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">radar is a palindrome.</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The <strong>two-pointer technique</strong> is an efficient way to compare elements from both ends. It's used in many problems beyond palindromes.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-green">📂 Part 2 — Arrays & Searching (Problems 6–10)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 6 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">6</div>
+        <div>
+          <div class="lesson-title t-orange">📊 Find the Maximum Element in an Array</div>
+          <div class="lesson-sub">Scan through an array to find the highest value</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Given an array of integers, find and print the <strong>highest value</strong>.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>Assume the first element is the maximum. Loop through the rest; whenever a larger element is found, update the maximum.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class MaxInArray {
+    public static void main(String[] args) {
+        int[] numbers = {12, 45, 67, 2, 89, 34};
+        int max = numbers[0];
+
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] > max) {
+                max = numbers[i];
+            }
+        }
+
+        System.out.println("The maximum value is: " + max);
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">The maximum value is: 89</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>This <strong>linear scan</strong> pattern runs in O(n) time and is the foundation for many array algorithms.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 7 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">7</div>
+        <div>
+          <div class="lesson-title t-red">➕ Calculate the Sum and Average of Array Elements</div>
+          <div class="lesson-sub">Accumulate values using an enhanced for loop</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Write a program to calculate the <strong>sum</strong> and <strong>average</strong> of all numbers in an array.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class ArraySumAverage {
+    public static void main(String[] args) {
+        int[] numbers = {10, 20, 30, 40, 50};
+        int sum = 0;
+
+        for (int num : numbers) {
+            sum += num;
+        }
+
+        double average = (double) sum / numbers.length;
+
+        System.out.println("Sum: " + sum);
+        System.out.println("Average: " + average);
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Output — Sum</div>
+            <p><code class="ic">Sum: 150</code></p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Output — Average</div>
+            <p><code class="ic">Average: 30.0</code></p>
+          </div>
+        </div>
+
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Common Mistake</div>
+          <p>Forgetting to cast to <code class="ic">(double)</code> before dividing. Integer division <code class="ic">150 / 5</code> gives <code class="ic">30</code>, but <code class="ic">151 / 5</code> gives <code class="ic">30</code> instead of <code class="ic">30.2</code>.</p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The <strong>enhanced for loop</strong> (<code class="ic">for-each</code>) provides cleaner syntax when you don't need the index. Always cast to <code class="ic">double</code> for precise averages.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 8 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">8</div>
+        <div>
+          <div class="lesson-title t-blue">🐇 Print Fibonacci Series up to N Terms</div>
+          <div class="lesson-sub">Generate the classic sequence where each term is the sum of the two before it</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Print the first <strong>N</strong> numbers in the Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8, …</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>Each Fibonacci number is the sum of the two preceding ones. Maintain two variables <code class="ic">first</code> and <code class="ic">second</code>, then compute <code class="ic">next = first + second</code> in each iteration.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class Fibonacci {
+    public static void main(String[] args) {
+        int n = 7;
+        int first = 0, second = 1;
+
+        System.out.print("First " + n + " terms: ");
+        for (int i = 1; i <= n; i++) {
+            System.out.print(first + " ");
+
+            // Compute next term
+            int next = first + second;
+            first = second;
+            second = next;
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">First 7 terms: 0 1 1 2 3 5 8</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The Fibonacci series teaches the concept of <strong>iterative state update</strong> — carrying forward previous results to compute the next one.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 9 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">9</div>
+        <div>
+          <div class="lesson-title t-green">🔤 Count Vowels and Consonants in a String</div>
+          <div class="lesson-sub">Classify each character as a vowel, consonant, or non-letter</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Given a string, count how many <strong>vowels</strong> (a, e, i, o, u) and <strong>consonants</strong> are present.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class CountVowels {
+    public static void main(String[] args) {
+        String str = "Java Programming";
+        str = str.toLowerCase();
+
+        int vowels = 0;
+        int consonants = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+
+            if (ch >= 'a' && ch <= 'z') {
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Vowels</div>
+            <p><code class="ic">Vowels: 5</code> — a, a, o, a, i</p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Consonants</div>
+            <p><code class="ic">Consonants: 10</code> — j, v, p, r, g, r, m, m, n, g</p>
+          </div>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Convert to lowercase first to simplify comparisons. Always check that a character is actually a letter before classifying it.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 10 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">10</div>
+        <div>
+          <div class="lesson-title t-amber">🔀 Swap Two Numbers Without a Third Variable</div>
+          <div class="lesson-sub">Use arithmetic to exchange values in place</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Swap the values of two integer variables <strong>without</strong> using a temporary third variable.</p>
+        </div>
+
+        <div class="card c-orange">
+          <div class="card-title ct-orange">⚙️ How It Works</div>
+          <p>Given <code class="ic">a = 5</code> and <code class="ic">b = 10</code>:</p>
+          <ul class="sl">
+            <li><code class="ic">a = a + b</code> → a becomes 15</li>
+            <li><code class="ic">b = a - b</code> → b becomes 5 (original a)</li>
+            <li><code class="ic">a = a - b</code> → a becomes 10 (original b)</li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class SwapNumbers {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 10;
+
+        System.out.println("Before swap: a = " + a + ", b = " + b);
+
+        // Swapping without temp variable
+        a = a + b; // a becomes 15
+        b = a - b; // b becomes 5
+        a = a - b; // a becomes 10
+
+        System.out.println("After swap: a = " + a + ", b = " + b);
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">Before swap: a = 5, b = 10</code></p>
+          <p><code class="ic">After swap: a = 10, b = 5</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>This arithmetic trick avoids extra memory. An alternative is XOR swapping: <code class="ic">a ^= b; b ^= a; a ^= b;</code>. In practice, using a temp variable is clearer and preferred.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-lavender">📂 Part 3 — Number Theory & Math (Problems 11–15)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 11 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">11</div>
+        <div>
+          <div class="lesson-title t-lavender">🔍 Check if a Number is Prime</div>
+          <div class="lesson-sub">Test divisibility up to the square root for efficiency</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>A <strong>prime number</strong> is greater than 1 and divisible only by 1 and itself. Check if a given number is prime.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>You only need to check divisors up to <code class="ic">√num</code>. If no divisor is found in that range, the number is prime. This reduces time complexity from O(n) to O(√n).</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class PrimeCheck {
+    public static void main(String[] args) {
+        int num = 29;
+        boolean isPrime = true;
+
+        if (num <= 1) {
+            isPrime = false;
+        } else {
+            for (int i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+        }
+
+        if (isPrime) {
+            System.out.println(num + " is a Prime number.");
+        } else {
+            System.out.println(num + " is NOT a Prime number.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">29 is a Prime number.</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The square-root optimization is crucial. For 29, instead of checking divisors 2–28, we only check 2–5. This matters greatly for large numbers.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 12 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">12</div>
+        <div>
+          <div class="lesson-title t-teal">📅 Check for a Leap Year</div>
+          <div class="lesson-sub">Apply the divisibility rules for leap year calculation</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Determine whether a given year is a <strong>leap year</strong>.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Leap Year Rules</div>
+          <ul class="sl">
+            <li>Divisible by <strong>4</strong> → candidate for leap year</li>
+            <li>But if divisible by <strong>100</strong> → NOT a leap year</li>
+            <li>Unless ALSO divisible by <strong>400</strong> → IS a leap year</li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class LeapYear {
+    public static void main(String[] args) {
+        int year = 2024;
+        boolean isLeap;
+
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            isLeap = true;
+        } else {
+            isLeap = false;
+        }
+
+        if (isLeap) {
+            System.out.println(year + " is a Leap Year.");
+        } else {
+            System.out.println(year + " is NOT a Leap Year.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">2024 is a Leap Year.</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Compound boolean expressions with <code class="ic">&&</code> and <code class="ic">||</code> can encode complex real-world rules in a single line.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 13 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">13</div>
+        <div>
+          <div class="lesson-title t-orange">🔢 Sum of Digits of an Integer</div>
+          <div class="lesson-sub">Extract digits one by one using modulo and division</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Given an integer (e.g., 12345), calculate the sum of its individual digits: 1 + 2 + 3 + 4 + 5 = <strong>15</strong>.</p>
+        </div>
+
+        <div class="card c-orange">
+          <div class="card-title ct-orange">⚙️ Algorithm</div>
+          <ul class="sl">
+            <li><code class="ic">lastDigit = temp % 10</code> — extracts the rightmost digit</li>
+            <li><code class="ic">temp /= 10</code> — removes the rightmost digit</li>
+            <li>Repeat until <code class="ic">temp == 0</code></li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class SumOfDigits {
+    public static void main(String[] args) {
+        int number = 12345;
+        int sum = 0;
+        int temp = number;
+
+        while (temp > 0) {
+            int lastDigit = temp % 10;
+            sum += lastDigit;
+            temp /= 10;
+        }
+
+        System.out.println("The sum of digits of " + number + " is: " + sum);
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">The sum of digits of 12345 is: 15</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>The <code class="ic">% 10</code> and <code class="ic">/= 10</code> pattern is a fundamental technique for digit-by-digit processing in Java.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 14 -->
+    <section class="lesson">
+      <div class="lesson-header lh-red">
+        <div class="badge b-red">14</div>
+        <div>
+          <div class="lesson-title t-red">↩️ Reverse an Integer</div>
+          <div class="lesson-sub">Build the reversed number digit by digit</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Reverse the digits of an integer (e.g., <code class="ic">9876</code> becomes <code class="ic">6789</code>).</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>Extract the last digit with <code class="ic">% 10</code>, then build the reversed number by multiplying the current result by 10 and adding the digit.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class ReverseNumber {
+    public static void main(String[] args) {
+        int number = 9876;
+        int reversed = 0;
+
+        while (number != 0) {
+            int digit = number % 10;
+            reversed = reversed * 10 + digit;
+            number /= 10;
+        }
+
+        System.out.println("Reversed number: " + reversed);
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">Reversed number: 6789</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>This pattern is nearly identical to sum-of-digits, but instead of accumulating a sum, you build a new number positionally with <code class="ic">reversed * 10 + digit</code>.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 15 -->
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">15</div>
+        <div>
+          <div class="lesson-title t-blue">✖️ Print a Multiplication Table</div>
+          <div class="lesson-sub">Use a simple for loop to display products from 1 to 10</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Print the <strong>multiplication table</strong> of a given number from 1 to 10.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class MultiplicationTable {
+    public static void main(String[] args) {
+        int num = 6;
+
+        System.out.println("Multiplication Table of " + num + ":");
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(num + " x " + i + " = " + (num * i));
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">6 x 1 = 6</code></p>
+          <p><code class="ic">6 x 2 = 12</code></p>
+          <p><code class="ic">6 x 3 = 18</code></p>
+          <p><code class="ic">… up to 6 x 10 = 60</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Simple <code class="ic">for</code> loops are ideal for repetitive output tasks. String concatenation with <code class="ic">+</code> makes formatting easy for display purposes.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="section-divider sd-orange">📂 Part 4 — Searching, Patterns & String Operations (Problems 16–20)</div>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- PROBLEM 16 -->
+    <section class="lesson">
+      <div class="lesson-header lh-green">
+        <div class="badge b-green">16</div>
+        <div>
+          <div class="lesson-title t-green">🔎 Linear Search — Find an Element in an Array</div>
+          <div class="lesson-sub">Iterate through every element until the target is found</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Search for a <strong>target value</strong> inside an array and print its index. If not found, print a message.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p><strong>Linear search</strong> checks each element one by one from left to right. It works on unsorted arrays and runs in O(n) time.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class LinearSearch {
+    public static void main(String[] args) {
+        int[] arr = {10, 25, 30, 45, 50};
+        int target = 45;
+        int foundIndex = -1;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex != -1) {
+            System.out.println("Element " + target + " found at index: " + foundIndex);
+        } else {
+            System.out.println("Element not found in the array.");
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">Element 45 found at index: 3</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Using <code class="ic">-1</code> as a sentinel value for "not found" is a common Java convention. The <code class="ic">break</code> statement exits the loop early once the target is found.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 17 -->
+    <section class="lesson">
+      <div class="lesson-header lh-amber">
+        <div class="badge b-amber">17</div>
+        <div>
+          <div class="lesson-title t-amber">⭐ Print a Right-Angled Star Pattern</div>
+          <div class="lesson-sub">Use nested loops to create a triangle of asterisks</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Use nested loops to print a <strong>right-angled triangle pattern</strong> of asterisks with N rows.</p>
+        </div>
+
+        <div class="card c-info">
+          <div class="card-title ct-blue">💡 Key Concept</div>
+          <p>The outer loop controls <strong>rows</strong>. The inner loop controls how many <strong>stars</strong> are printed per row. Row <code class="ic">i</code> prints <code class="ic">i</code> stars.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class StarPattern {
+    public static void main(String[] args) {
+        int rows = 5;
+
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">*</code></p>
+          <p><code class="ic">* *</code></p>
+          <p><code class="ic">* * *</code></p>
+          <p><code class="ic">* * * *</code></p>
+          <p><code class="ic">* * * * *</code></p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p><strong>Nested loops</strong> are essential for 2D patterns. The inner loop's boundary depending on the outer loop's variable is what creates the triangular shape.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 18 -->
+    <section class="lesson">
+      <div class="lesson-header lh-lavender">
+        <div class="badge b-lavender">18</div>
+        <div>
+          <div class="lesson-title t-lavender">🔠 Count Occurrences of a Character in a String</div>
+          <div class="lesson-sub">Scan through the string and tally matches</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Count how many times a specific character appears inside a string.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class CharFrequency {
+    public static void main(String[] args) {
+        String str = "banana";
+        char targetChar = 'a';
+        int count = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == targetChar) {
+                count++;
+            }
+        }
+
+        System.out.println("Character '" + targetChar + "' appears " + count + " times.");
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-note" style="margin-bottom:0;">
+            <div class="card-title ct-lavender">📥 Input</div>
+            <p>String: <code class="ic">"banana"</code>, Target: <code class="ic">'a'</code></p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Output</div>
+            <p><code class="ic">Character 'a' appears 3 times.</code></p>
+          </div>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Character counting is a building block for frequency analysis, histograms, and anagram detection. The same pattern extends to counting words or substrings.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 19 -->
+    <section class="lesson">
+      <div class="lesson-header lh-teal">
+        <div class="badge b-teal">19</div>
+        <div>
+          <div class="lesson-title t-teal">🧹 Remove All White Spaces from a String</div>
+          <div class="lesson-sub">Build a new string by skipping space characters</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Remove all space characters from a given string <strong>without</strong> using built-in <code class="ic">replace</code> methods.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class RemoveSpaces {
+    public static void main(String[] args) {
+        String str = "Java   is   fun to   learn";
+        String result = "";
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch != ' ') {
+                result += ch;
+            }
+        }
+
+        System.out.println("Without spaces: " + result);
+    }
+}</span>
+        </div>
+
+        <div class="two-col">
+          <div class="card c-note" style="margin-bottom:0;">
+            <div class="card-title ct-lavender">📥 Input</div>
+            <p><code class="ic">"Java   is   fun to   learn"</code></p>
+          </div>
+          <div class="card c-success" style="margin-bottom:0;">
+            <div class="card-title ct-green">✅ Output</div>
+            <p><code class="ic">"Javaisfuntolearn"</code></p>
+          </div>
+        </div>
+
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Performance Note</div>
+          <p>String concatenation in a loop creates a new <code class="ic">String</code> object each time. For production code, use <code class="ic">StringBuilder</code> for better performance.</p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Filtering characters by condition is a common pattern. The same approach works for removing digits, punctuation, or any unwanted characters.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROBLEM 20 -->
+    <section class="lesson">
+      <div class="lesson-header lh-orange">
+        <div class="badge b-orange">20</div>
+        <div>
+          <div class="lesson-title t-orange">🥈 Find the Second Largest Element in an Array</div>
+          <div class="lesson-sub">Track the top two values in a single pass through the array</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <div class="card c-note">
+          <div class="card-title ct-lavender">📋 Problem Statement</div>
+          <p>Find the <strong>second highest</strong> number in an array of integers without sorting it.</p>
+        </div>
+
+        <div class="card c-orange">
+          <div class="card-title ct-orange">⚙️ Algorithm</div>
+          <ul class="sl">
+            <li>Initialize <code class="ic">largest</code> and <code class="ic">secondLargest</code> to <code class="ic">Integer.MIN_VALUE</code></li>
+            <li>For each element: if it's greater than <code class="ic">largest</code>, shift <code class="ic">largest</code> down to <code class="ic">secondLargest</code> and update <code class="ic">largest</code></li>
+            <li>Else if it's greater than <code class="ic">secondLargest</code> and not equal to <code class="ic">largest</code>, update <code class="ic">secondLargest</code></li>
+          </ul>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span class="code-lang">java</span>
+            <span class="code-label">Solution</span>
+          </div><span class="code-body">public class SecondLargest {
+    public static void main(String[] args) {
+        int[] arr = {12, 35, 1, 10, 34, 1};
+
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+
+        for (int num : arr) {
+            if (num > largest) {
+                secondLargest = largest;
+                largest = num;
+            } else if (num > secondLargest && num != largest) {
+                secondLargest = num;
+            }
+        }
+
+        if (secondLargest == Integer.MIN_VALUE) {
+            System.out.println("There is no second largest element.");
+        } else {
+            System.out.println("Second largest element is: " + secondLargest);
+        }
+    }
+}</span>
+        </div>
+
+        <div class="card c-success">
+          <div class="card-title ct-green">✅ Sample Output</div>
+          <p><code class="ic">Second largest element is: 34</code></p>
+        </div>
+
+        <div class="card c-warn">
+          <div class="card-title ct-amber">⚠️ Edge Case</div>
+          <p>If all elements are identical (e.g., <code class="ic">{5, 5, 5}</code>), there is no distinct second largest. The condition <code class="ic">num != largest</code> handles this correctly.</p>
+        </div>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🔑 Takeaway</div>
+          <p>Tracking multiple "best" values in a single pass is an O(n) technique. This extends to finding the <strong>k-th largest</strong> for small k values without needing to sort the entire array.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SUMMARY TABLE -->
+    <div class="section-divider sd-blue">📋 Quick Reference — All 20 Problems</div>
+
+    <section class="lesson">
+      <div class="lesson-header lh-blue">
+        <div class="badge b-blue">📊</div>
+        <div>
+          <div class="lesson-title t-blue">Summary Table</div>
+          <div class="lesson-sub">All 20 problems at a glance with key concepts</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+
+        <table class="dtable">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Problem</td>
+              <td>Key Concept</td>
+              <td>Difficulty</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Even or Odd</td><td>Modulo operator <code class="ic">%</code></td><td>⭐</td></tr>
+            <tr><td>2</td><td>Largest of Three</td><td>If-else chain</td><td>⭐</td></tr>
+            <tr><td>3</td><td>Factorial</td><td>For loop, accumulator</td><td>⭐</td></tr>
+            <tr><td>4</td><td>Reverse String</td><td>charAt(), backward loop</td><td>⭐</td></tr>
+            <tr><td>5</td><td>Palindrome Check</td><td>Two-pointer technique</td><td>⭐⭐</td></tr>
+            <tr><td>6</td><td>Max in Array</td><td>Linear scan</td><td>⭐</td></tr>
+            <tr><td>7</td><td>Sum & Average</td><td>Enhanced for loop, casting</td><td>⭐</td></tr>
+            <tr><td>8</td><td>Fibonacci Series</td><td>Iterative state update</td><td>⭐⭐</td></tr>
+            <tr><td>9</td><td>Vowels & Consonants</td><td>Character classification</td><td>⭐</td></tr>
+            <tr><td>10</td><td>Swap Without Temp</td><td>Arithmetic swap</td><td>⭐</td></tr>
+            <tr><td>11</td><td>Prime Check</td><td>√n optimization</td><td>⭐⭐</td></tr>
+            <tr><td>12</td><td>Leap Year</td><td>Compound booleans</td><td>⭐</td></tr>
+            <tr><td>13</td><td>Sum of Digits</td><td>% 10 and /= 10</td><td>⭐</td></tr>
+            <tr><td>14</td><td>Reverse Integer</td><td>Digit extraction</td><td>⭐</td></tr>
+            <tr><td>15</td><td>Multiplication Table</td><td>Simple for loop</td><td>⭐</td></tr>
+            <tr><td>16</td><td>Linear Search</td><td>Sequential scan, sentinel</td><td>⭐</td></tr>
+            <tr><td>17</td><td>Star Pattern</td><td>Nested loops</td><td>⭐⭐</td></tr>
+            <tr><td>18</td><td>Char Frequency</td><td>Counter pattern</td><td>⭐</td></tr>
+            <tr><td>19</td><td>Remove Spaces</td><td>Character filtering</td><td>⭐</td></tr>
+            <tr><td>20</td><td>Second Largest</td><td>Multi-value tracking</td><td>⭐⭐</td></tr>
+          </tbody>
+        </table>
+
+        <div class="card c-teal">
+          <div class="card-title ct-teal">🎯 What's Next?</div>
+          <p>Once you're comfortable with these problems, move on to <strong>sorting algorithms</strong> (Bubble Sort, Selection Sort), <strong>recursion</strong>, and <strong>object-oriented programming</strong> concepts like classes, inheritance, and polymorphism.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SYNTAX HIGHLIGHTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+  (function(){
+    function escapeHTML(s){
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function highlight(raw){
+      var out = '';
+      var i   = 0;
+      var len = raw.length;
+
+      while(i < len){
+
+        if(raw[i]==='/' && raw[i+1]==='/'){
+          var end = raw.indexOf('\n', i);
+          if(end===-1) end = len;
+          out += '<span class="tok-comment">'+escapeHTML(raw.slice(i,end))+'</span>';
+          i = end;
+          continue;
+        }
+
+        if(raw[i]==='"'){
+          var j = i+1;
+          while(j < len){ if(raw[j]==='\\'){j+=2;continue;} if(raw[j]==='"'){j++;break;} j++; }
+          out += '<span class="tok-str">'+escapeHTML(raw.slice(i,j))+'</span>';
+          i = j;
+          continue;
+        }
+
+        if(raw[i]==="'"){
+          var j = i+1;
+          while(j < len){ if(raw[j]==='\\'){j+=2;continue;} if(raw[j]==="'"){j++;break;} j++; }
+          out += '<span class="tok-str">'+escapeHTML(raw.slice(i,j))+'</span>';
+          i = j;
+          continue;
+        }
+
+        if(/[a-zA-Z_$]/.test(raw[i])){
+          var j = i;
+          while(j < len && /[a-zA-Z0-9_$]/.test(raw[j])) j++;
+          var word = raw.slice(i,j);
+          var esc  = escapeHTML(word);
+
+          if(/^(String|int|double|float|long|boolean|char|byte|short|void)$/.test(word)){
+            out += '<span class="tok-kw">'+esc+'</span>';
+
+          } else if(/^(if|else|for|while|do|return|new|break|continue|switch|case|default|try|catch|finally|throw|throws|import|package|class|interface|enum|extends|implements|static|final|public|private|protected|abstract|this|super|instanceof|synchronized|volatile|transient|native|strictfp)$/.test(word)){
+            out += '<span class="tok-ctrl">'+esc+'</span>';
+
+          } else if(/^(true|false|null)$/.test(word)){
+            out += '<span class="tok-bool">'+esc+'</span>';
+
+          } else if(/^(StringBuilder|StringBuffer|CharArrayWriter|LinkedHashMap|LinkedHashSet|HashSet|TreeSet|HashMap|TreeMap|Arrays|Collections|List|ArrayList|Map|Set|Queue|Stack|Optional|Stream|Iterator|Entry|Integer|Double|Float|Long|Short|Byte|Boolean|Character|Number|Object|Math|Runtime|Thread|Runnable|Exception|RuntimeException|Error|Throwable|System|Scanner|Random|PrintStream|BufferedReader|InputStreamReader)$/.test(word)){
+            out += '<span class="tok-type">'+esc+'</span>';
+
+          } else if(word==='System'){
+            out += '<span class="tok-sys">'+esc+'</span>';
+
+          } else if(/^[A-Z][a-zA-Z0-9]*$/.test(word)){
+            out += '<span class="tok-type">'+esc+'</span>';
+
+          } else {
+            var k = j;
+            while(k < len && raw[k]===' ') k++;
+            if(raw[k]==='('){
+              out += '<span class="tok-method">'+esc+'</span>';
+            } else {
+              out += '<span class="tok-var">'+esc+'</span>';
+            }
+          }
+          i = j;
+          continue;
+        }
+
+        if(/[0-9]/.test(raw[i])){
+          var j = i;
+          while(j < len && /[0-9\.fFdDlLxXa-fA-F_]/.test(raw[j])) j++;
+          out += '<span class="tok-num">'+escapeHTML(raw.slice(i,j))+'</span>';
+          i = j;
+          continue;
+        }
+
+        out += escapeHTML(raw[i]);
+        i++;
+      }
+      return out;
+    }
+
+    document.querySelectorAll('.code-body').forEach(function(el){
+      el.innerHTML = highlight(el.textContent);
+    });
+  })();
+  </script>
+
+</body>
+</html>
