@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Practice · LeetCode Problems & Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── SECTION 2: CSS VARIABLES ── */
+    :root {
+      --cream:#fdfaf5; --white:#ffffff;
+      --blue-light:#e8f4fd; --blue:#3a8fd1; --blue-dark:#1f6faa;
+      --green-light:#e8f8ee; --green:#34a85a; --green-dark:#1e7e3a;
+      --amber-light:#fff8e1; --amber:#f4a918; --amber-dark:#c47d06;
+      --pink-light:#fff0f3; --pink:#e8547a;
+      --lavender-light:#f3f0ff; --lavender:#7c5cbf; --lavender-dark:#4a2f8a;
+      --teal-light:#e6faf8; --teal:#1fa8a0;
+      --orange-light:#fff4ec; --orange:#e87530; --orange-dark:#a04010;
+      --red-light:#fff0ee; --red:#d93025; --red-dark:#8b1a14;
+      --text:#2a2d3a; --muted:#6b7280; --border:#e5e9f0;
+      --shadow:0 2px 12px rgba(60,80,120,0.08); --r:12px;
+      --mono:'Fira Code',monospace; --font:'Sour Gummy',sans-serif;
+    }
+
+    /* ── SECTION 3: GLOBAL RESET & BODY ── */
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family: var(--font);
+      background: var(--cream);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .page {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 28px 32px 60px;
+    }
+    p { margin-bottom: 7px; }
+    strong { font-weight: 700; }
+
+    /* ── SECTION 4: SITE HEADER ── */
+    .site-header {
+      border-radius: 18px;
+      padding: 26px 36px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      border: 1.5px solid #b8d8f5;
+      background: linear-gradient(135deg, #dbeeff 0%, #ede8ff 100%);
+    }
+    .header-icon { font-size:50px; line-height:1; }
+    .header-title { font-size:30px; font-weight:800; letter-spacing:-0.3px; color:var(--blue-dark); }
+    .header-sub { font-size:18px; color:var(--muted); margin-top:4px; }
+
+    /* ── SECTION 5: SECTION DIVIDERS ── */
+    .section-divider {
+      border-left: 5px solid var(--blue);
+      background: linear-gradient(90deg, var(--blue-light), #fff);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 20px 0 16px;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--blue-dark);
+    }
+    .sd-blue { border-color:var(--blue); background:linear-gradient(90deg,var(--blue-light),#fff); color:var(--blue-dark); }
+    .sd-green { border-color:var(--green); background:linear-gradient(90deg,var(--green-light),#fff); color:var(--green-dark); }
+    .sd-amber { border-color:var(--amber); background:linear-gradient(90deg,var(--amber-light),#fff); color:var(--amber-dark); }
+    .sd-lavender { border-color:var(--lavender); background:linear-gradient(90deg,var(--lavender-light),#fff); color:var(--lavender-dark); }
+
+    /* ── SECTION 6: LESSON CARDS ── */
+    .lesson {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .lesson-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 22px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .lh-blue { background:linear-gradient(90deg,#dbeeff,#f0f9ff); }
+    .lh-green { background:linear-gradient(90deg,#daf5e4,#f0fff5); }
+    .lh-amber { background:linear-gradient(90deg,#fff3cd,#fffdf0); }
+    .lh-lavender { background:linear-gradient(90deg,#ede8ff,#f8f5ff); }
+    .lh-teal { background:linear-gradient(90deg,#d6f5f3,#f0fffd); }
+    .lh-orange { background:linear-gradient(90deg,#ffeadb,#fff9f5); }
+    .lh-red { background:linear-gradient(90deg,#ffe5e2,#fff5f5); }
+
+    .badge {
+      width:30px; height:30px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0;
+    }
+    .b-blue { background:var(--blue); }
+    .b-green { background:var(--green); }
+    .b-amber { background:var(--amber); }
+    .b-lavender { background:var(--lavender); }
+    .b-teal { background:var(--teal); }
+    .b-orange { background:var(--orange); }
+    .b-red { background:var(--red); }
+
+    .lesson-title { font-size:20px; font-weight:800; }
+    .t-blue { color:var(--blue-dark); }
+    .t-green { color:var(--green-dark); }
+    .t-amber { color:var(--amber-dark); }
+    .t-lavender { color:var(--lavender-dark); }
+    .t-teal { color:var(--teal); }
+    .t-orange { color:var(--orange-dark); }
+    .t-red { color:var(--red-dark); }
+
+    .lesson-sub { font-size:15px; color:var(--muted); margin-top:2px; }
+    .lesson-body { padding:20px 24px; }
+
+    /* ── SECTION 7: INFO CARDS ── */
+    .card {
+      border-radius:10px;
+      padding:13px 16px;
+      margin-bottom:13px;
+      border-left:4px solid transparent;
+    }
+    .c-info { background:var(--blue-light); border-color:var(--blue); }
+    .c-success { background:var(--green-light); border-color:var(--green); }
+    .c-warn { background:var(--amber-light); border-color:var(--amber); }
+    .c-note { background:var(--lavender-light); border-color:var(--lavender); }
+    .c-teal { background:var(--teal-light); border-color:var(--teal); }
+    .c-orange { background:var(--orange-light); border-color:var(--orange); }
+    .c-red { background:var(--red-light); border-color:var(--red); }
+
+    .card-title {
+      display:flex; align-items:center; gap:6px;
+      font-size:15px; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.7px;
+      margin-bottom:7px;
+    }
+    .ct-blue { color:var(--blue-dark); }
+    .ct-green { color:var(--green-dark); }
+    .ct-amber { color:var(--amber-dark); }
+    .ct-lavender { color:var(--lavender); }
+    .ct-teal { color:var(--teal); }
+    .ct-orange { color:var(--orange); }
+    .ct-red { color:var(--red-dark); }
+
+    /* ── SECTION 8: LAYOUT GRIDS ── */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-bottom:13px; }
+    .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:13px; margin-bottom:13px; }
+
+    /* ── SECTION 9: CODE BLOCKS ── */
+    .code-block {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 13px;
+      border: 1px solid #d0d7e3;
+      box-shadow: 0 2px 8px rgba(60,80,120,0.10);
+    }
+    .code-header {
+      background: #e8ecf4;
+      padding: 7px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #c8d0e0;
+    }
+    .code-lang { font-family:var(--mono); font-size:13px; color:#6272a4; font-weight:600; }
+    .code-label { font-family:var(--mono); font-size:13px; background:#3a8fd1; color:#fff; padding:2px 8px; border-radius:5px; }
+    .code-body {
+      display: block;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.75;
+      background: #f8f9fc;
+      color: #24292e;
+      padding: 16px 18px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .tok-kw   { color:#0000ff; font-weight:700; }
+    .tok-ctrl { color:#af00db; font-weight:700; }
+    .tok-type { color:#267f99; font-weight:600; }
+    .tok-str  { color:#a31515; }
+    .tok-num  { color:#098658; }
+    .tok-comment { color:#6a9955; font-style:italic; }
+    .tok-method { color:#795e26; }
+    .tok-bool { color:#0000ff; font-weight:700; }
+    .tok-sys  { color:#001080; font-weight:600; }
+    .tok-var  { color:#001080; }
+    .tok-hi   { background:#fff8c5; border-radius:3px; padding:0 2px; }
+
+    /* ── SECTION 10: DATA TABLES ── */
+    .dtable {
+      width:100%; border-collapse:collapse;
+      border-radius:10px; overflow:hidden;
+      margin-bottom:13px; font-size:16px;
+    }
+    .dtable thead tr { background:var(--blue); color:#fff; }
+    .dtable thead td { padding:9px 13px; font-weight:700; }
+    .dtable tbody tr:nth-child(odd) { background:#f4f8fd; }
+    .dtable tbody tr:nth-child(even) { background:#fff; }
+    .dtable tbody td { padding:8px 13px; border-bottom:1px solid var(--border); }
+    .dtable tbody tr:last-child td { border-bottom:none; }
+
+    /* ── SECTION 11: BULLET LISTS ── */
+    ul.sl { list-style:none; margin:0; padding:0; }
+    ul.sl li {
+      padding: 4px 0 4px 20px;
+      position: relative;
+      font-size: 18px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    ul.sl li:last-child { border-bottom:none; }
+    ul.sl li::before {
+      content:'▸';
+      position:absolute; left:0;
+      color:var(--blue); font-size:15px; top:7px;
+    }
+
+    /* ── SECTION 12: INLINE CODE ── */
+    code.ic {
+      font-family:var(--mono); font-size:16px;
+      background:#eef4fb; padding:1px 5px;
+      border-radius:4px; color:var(--blue-dark);
+    }
+    code.ic-green { background:var(--green-light); color:var(--green-dark); }
+    code.ic-amber { background:var(--amber-light); color:var(--amber-dark); }
+    code.ic-red { background:var(--red-light); color:var(--red-dark); }
+    code.ic-purple { background:var(--lavender-light); color:var(--lavender-dark); }
+
+    /* ── SECTION 13: STEP BOXES ── */
+    .step-box {
+      display:flex; align-items:flex-start; gap:12px;
+      padding:10px 14px; border-radius:10px; margin-bottom:10px;
+      border:1.5px solid;
+    }
+    .step-box.blue { background:var(--blue-light); border-color:#b8d8f5; }
+    .step-box.green { background:var(--green-light); border-color:#a0d8b0; }
+    .step-box.amber { background:var(--amber-light); border-color:#f4d06e; }
+    .step-box.red { background:var(--red-light); border-color:#f4b0aa; }
+    .step-num {
+      width:26px; height:26px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:800; color:#fff; flex-shrink:0; margin-top:2px;
+    }
+    .sn-blue { background:var(--blue); }
+    .sn-green { background:var(--green); }
+    .sn-amber { background:var(--amber); }
+    .sn-red { background:var(--red); }
+    .sn-lavender { background:var(--lavender); }
+
+    /* ── ADDITIONAL SMALL HELPERS ── */
+    .mt-0 { margin-top:0; }
+    .mb-0 { margin-bottom:0; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════ PAGE HEADER ═══════════ -->
+  <header class="site-header">
+    <div class="header-icon">🧩</div>
+    <div>
+      <div class="header-title">SQL Practice · LeetCode Problems</div>
+      <div class="header-sub">10 problems · Full statements · Solutions & deep explanations</div>
+    </div>
+  </header>
+
+  <!-- ═══════════ SECTION: FILTERING & NULL HANDLING ═══════════ -->
+  <div class="section-divider sd-blue">📂 Part 1 — Filtering & Null Handling</div>
+
+  <!-- ── Problem 1 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-blue">
+      <div class="badge b-blue">1</div>
+      <div>
+        <div class="lesson-title t-blue">🔍 584. Find Customer Referee</div>
+        <div class="lesson-sub">Names of customers referred by id != 2 OR not referred at all</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Find the names of the customer that are either: <strong>referred by any customer with id != 2</strong>, or <strong>not referred by any customer</strong>.</p>
+        <p>Return the result table in any order.</p>
+        <p>The result format is in the following example.</p>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Example 1 · Input</div>
+        <p><strong>Customer table:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>id</td><td>name</td><td>referee_id</td></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Will</td><td>null</td></tr>
+            <tr><td>2</td><td>Jane</td><td>null</td></tr>
+            <tr><td>3</td><td>Alex</td><td>2</td></tr>
+            <tr><td>4</td><td>Bill</td><td>null</td></tr>
+            <tr><td>5</td><td>Zack</td><td>1</td></tr>
+            <tr><td>6</td><td>Mark</td><td>2</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Output:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>name</td></tr></thead>
+          <tbody>
+            <tr><td>Will</td></tr>
+            <tr><td>Jane</td></tr>
+            <tr><td>Bill</td></tr>
+            <tr><td>Zack</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT name 
+FROM Customer  
+WHERE (referee_id <> 2 OR referee_id IS NULL);</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>We need customers whose <code class="ic">referee_id</code> is <strong>not 2</strong> (including null values, because "not referred by any customer" means referee_id is null).</li>
+          <li>Condition <code class="ic">referee_id <> 2</code> would exclude NULLs because NULL comparisons yield UNKNOWN. So we add <code class="ic">referee_id IS NULL</code>.</li>
+          <li><strong>Row-by-row analysis:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>Will (referee_id = null) → matches <code class="ic">IS NULL</code> ✅</li>
+              <li>Jane (referee_id = null) → matches <code class="ic">IS NULL</code> ✅</li>
+              <li>Alex (referee_id = 2) → <code class="ic">&lt;&gt; 2</code> is false, <code class="ic">IS NULL</code> is false ❌</li>
+              <li>Bill (referee_id = null) → matches <code class="ic">IS NULL</code> ✅</li>
+              <li>Zack (referee_id = 1) → <code class="ic">&lt;&gt; 2</code> is true ✅</li>
+              <li>Mark (referee_id = 2) → <code class="ic">&lt;&gt; 2</code> is false, <code class="ic">IS NULL</code> is false ❌</li>
+            </ul>
+          </li>
+          <li>Result: <strong>Will, Jane, Bill, Zack</strong> — exactly the expected output.</li>
+        </ul>
+      </div>
+
+      <div class="card c-warn">
+        <div class="card-title ct-amber">⚠️ Common mistake</div>
+        <p>Writing <code class="ic">referee_id != 2</code> alone silently drops rows where referee_id is NULL. Always handle NULLs explicitly.</p>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Use <code class="ic">OR ... IS NULL</code> to include missing references. The result order is irrelevant.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 2 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-green">
+      <div class="badge b-green">2</div>
+      <div>
+        <div class="lesson-title t-green">🔗 175. Combine Two Tables</div>
+        <div class="lesson-sub">Report first name, last name, city, state for every person</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to report the first name, last name, city, and state of each person in the Person table. If the address of a personId is not present in the Address table, report null instead.</p>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Person table</div>
+          <table class="dtable">
+            <thead><tr><td>personId</td><td>lastName</td><td>firstName</td></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Wang</td><td>Allen</td></tr>
+              <tr><td>2</td><td>Alice</td><td>Bob</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Address table</div>
+          <table class="dtable">
+            <thead><tr><td>addressId</td><td>personId</td><td>city</td><td>state</td></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>New York City</td><td>New York</td></tr>
+              <tr><td>2</td><td>3</td><td>Leetcode</td><td>California</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Output</div>
+        <table class="dtable">
+          <thead><tr><td>firstName</td><td>lastName</td><td>city</td><td>state</td></tr></thead>
+          <tbody>
+            <tr><td>Allen</td><td>Wang</td><td>Null</td><td>Null</td></tr>
+            <tr><td>Bob</td><td>Alice</td><td>New York City</td><td>New York</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Explanation:</strong> There is no address in the address table for the personId = 1 so we return null in their city and state. addressId = 1 contains information about the address of personId = 2.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT 
+    Person.firstName, 
+    Person.lastName, 
+    Address.city, 
+    Address.state
+FROM 
+    Person
+LEFT JOIN 
+    Address 
+ON 
+    Person.personId = Address.personId;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li><strong>LEFT JOIN</strong> keeps all rows from <code class="ic">Person</code>, even when no matching address exists.</li>
+          <li>For personId = 1 (Allen Wang), no address row matches, so <code class="ic">city</code> and <code class="ic">state</code> become NULL.</li>
+          <li>For personId = 2 (Bob Alice), address exists → city = "New York City", state = "New York".</li>
+          <li>PersonId = 3 exists in Address but not in Person → not included (LEFT JOIN starts from Person).</li>
+          <li>Output matches the expected format (including Null for missing address).</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>LEFT JOIN is the standard way to include all records from one table while optionally pulling matching data from another.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SECTION: AGGREGATION & GROUPING ═══════════ -->
+  <div class="section-divider sd-green">📂 Part 2 — Aggregation & Grouping</div>
+
+  <!-- ── Problem 3 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-amber">
+      <div class="badge b-amber">3</div>
+      <div>
+        <div class="lesson-title t-amber">📧 182. Duplicate Emails</div>
+        <div class="lesson-sub">Find all duplicate emails in Person table</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to report all the duplicate emails. Note that it's guaranteed that the email field is not NULL.</p>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Example 1 · Input</div>
+        <p><strong>Person table:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>id</td><td>email</td></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>a@b.com</td></tr>
+            <tr><td>2</td><td>c@d.com</td></tr>
+            <tr><td>3</td><td>a@b.com</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Output:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>Email</td></tr></thead>
+          <tbody>
+            <tr><td>a@b.com</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Explanation:</strong> a@b.com is repeated two times.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT email
+FROM Person
+GROUP BY email
+HAVING COUNT(DISTINCT id) > 1;
+-- USE HAVING WITH GROUP BY NOT WHERE
+-- THIS TIME THE ID COLUMN WAS THE PRIMARY KEY BUT IN DIFFERENT SCENARIOS 
+-- YOU MAY HAVE TO FILTER BASED ON NON PK COLUMNS SO YOU MUST USE DISTINCT</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Group rows by <code class="ic">email</code>.</li>
+          <li>Use <code class="ic">HAVING COUNT(DISTINCT id) > 1</code> to find groups with more than one distinct id (i.e., duplicated email).</li>
+          <li>Because id is a primary key, <code class="ic">COUNT(DISTINCT id)</code> safely counts distinct occurrences. If the table had no PK, we could use <code class="ic">COUNT(*)</code>.</li>
+          <li><strong>Group analysis:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>"a@b.com" → ids 1 and 3 → COUNT(DISTINCT id) = 2 > 1 ✅</li>
+              <li>"c@d.com" → id 2 → COUNT(DISTINCT id) = 1, not > 1 ❌</li>
+            </ul>
+          </li>
+          <li>Output: <code class="ic">a@b.com</code> appears twice, so it's returned.</li>
+        </ul>
+      </div>
+
+      <div class="card c-warn">
+        <div class="card-title ct-amber">⚠️ Note</div>
+        <p><code class="ic">WHERE</code> cannot filter on aggregate results — that's why <code class="ic">HAVING</code> is used after <code class="ic">GROUP BY</code>.</p>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Always use <code class="ic">HAVING</code> with aggregate conditions, and consider <code class="ic">DISTINCT</code> when counting non‑unique columns.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 4 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-lavender">
+      <div class="badge b-lavender">4</div>
+      <div>
+        <div class="lesson-title t-lavender">🛒 183. Customers Who Never Order</div>
+        <div class="lesson-sub">Find customers with no orders using LEFT JOIN … IS NULL</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to find all customers who never order anything.</p>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Customers table</div>
+          <table class="dtable">
+            <thead><tr><td>id</td><td>name</td></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Joe</td></tr>
+              <tr><td>2</td><td>Henry</td></tr>
+              <tr><td>3</td><td>Sam</td></tr>
+              <tr><td>4</td><td>Max</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Orders table</div>
+          <table class="dtable">
+            <thead><tr><td>id</td><td>customerId</td></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>3</td></tr>
+              <tr><td>2</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Output</div>
+        <table class="dtable">
+          <thead><tr><td>Customers</td></tr></thead>
+          <tbody>
+            <tr><td>Henry</td></tr>
+            <tr><td>Max</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT C.name AS Customers 
+FROM Customers AS C
+LEFT JOIN
+Orders AS O
+ON C.id = O.customerId
+WHERE O.id IS NULL;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li><strong>LEFT JOIN</strong> keeps all customers, matching orders where possible.</li>
+          <li>Customers with no orders get NULL for all Orders columns.</li>
+          <li><code class="ic">WHERE O.id IS NULL</code> filters exactly those customers.</li>
+          <li><strong>Join result before WHERE:</strong>
+            <table class="dtable" style="margin-top:6px;">
+              <thead><tr><td>Customers.name</td><td>Orders.customerId</td></tr></thead>
+              <tbody>
+                <tr><td>Joe</td><td>1</td></tr>
+                <tr><td>Henry</td><td>NULL</td></tr>
+                <tr><td>Sam</td><td>3</td></tr>
+                <tr><td>Max</td><td>NULL</td></tr>
+              </tbody>
+            </table>
+          </li>
+          <li>After <code class="ic">WHERE O.id IS NULL</code>: Henry and Max remain.</li>
+          <li>In the example: Henry (2) and Max (4) have no orders → returned.</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Anti-join pattern: <code class="ic">LEFT JOIN … WHERE right.id IS NULL</code> is a classic way to find non-matching rows.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 5 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-teal">
+      <div class="badge b-teal">5</div>
+      <div>
+        <div class="lesson-title t-teal">💰 577. Employee Bonus</div>
+        <div class="lesson-sub">Employees with bonus &lt; 1000 or no bonus</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to report the name and bonus amount of each employee who satisfies either of the following:</p>
+        <ul class="sl">
+          <li>The employee has a bonus less than 1000.</li>
+          <li>The employee did not get any bonus.</li>
+        </ul>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Employee table</div>
+          <table class="dtable">
+            <thead><tr><td>empId</td><td>name</td><td>supervisor</td><td>salary</td></tr></thead>
+            <tbody>
+              <tr><td>3</td><td>Brad</td><td>null</td><td>4000</td></tr>
+              <tr><td>1</td><td>John</td><td>3</td><td>1000</td></tr>
+              <tr><td>2</td><td>Dan</td><td>3</td><td>2000</td></tr>
+              <tr><td>4</td><td>Thomas</td><td>3</td><td>4000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Bonus table</div>
+          <table class="dtable">
+            <thead><tr><td>empId</td><td>bonus</td></tr></thead>
+            <tbody>
+              <tr><td>2</td><td>500</td></tr>
+              <tr><td>4</td><td>2000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Output</div>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>bonus</td></tr></thead>
+          <tbody>
+            <tr><td>Brad</td><td>null</td></tr>
+            <tr><td>John</td><td>null</td></tr>
+            <tr><td>Dan</td><td>500</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT e.name, b.bonus
+FROM Employee e
+LEFT JOIN Bonus b
+ON e.empId = b.empId
+WHERE b.bonus < 1000 OR b.bonus IS NULL;
+--  [b.bonus IS NULL] is totally different from b.bonus = NULL</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li><strong>LEFT JOIN</strong> ensures all employees are considered.</li>
+          <li>Employees with no bonus row get NULL for <code class="ic">b.bonus</code>; those with bonus less than 1000 are also included.</li>
+          <li><code class="ic">b.bonus &lt; 1000</code> is false for NULL, so we explicitly add <code class="ic">b.bonus IS NULL</code>.</li>
+          <li><strong>Row-by-row:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>Brad (empId 3) → no bonus → NULL ✅</li>
+              <li>John (empId 1) → no bonus → NULL ✅</li>
+              <li>Dan (empId 2) → bonus 500 &lt; 1000 ✅</li>
+              <li>Thomas (empId 4) → bonus 2000, not &lt; 1000, not NULL ❌</li>
+            </ul>
+          </li>
+          <li>Result: Brad (null), John (null), Dan (500).</li>
+        </ul>
+      </div>
+
+      <div class="card c-warn">
+        <div class="card-title ct-amber">⚠️ Crucial</div>
+        <p><code class="ic">b.bonus = NULL</code> is never true — always use <code class="ic">IS NULL</code>.</p>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Combine <code class="ic">LEFT JOIN</code> with <code class="ic">IS NULL</code> to include employees without a bonus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SECTION: SUBQUERIES & MAX/MIN ═══════════ -->
+  <div class="section-divider sd-amber">📂 Part 3 — Subqueries, Max/Min & Ranking</div>
+
+  <!-- ── Problem 6 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-orange">
+      <div class="badge b-orange">6</div>
+      <div>
+        <div class="lesson-title t-orange">🏆 586. Customer Placing the Largest Number of Orders</div>
+        <div class="lesson-sub">Find customer_number with most orders using ORDER BY + LIMIT</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to find the customer_number for the customer who has placed the largest number of orders.</p>
+        <p>The test cases are generated so that exactly one customer will have placed more orders than any other customer.</p>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Example 1 · Input</div>
+        <p><strong>Orders table:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>order_number</td><td>customer_number</td></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>2</td><td>2</td></tr>
+            <tr><td>3</td><td>3</td></tr>
+            <tr><td>4</td><td>3</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Output:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>customer_number</td></tr></thead>
+          <tbody>
+            <tr><td>3</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Explanation:</strong> The customer with number 3 has two orders, which is greater than either customer 1 or 2 because each of them only has one order. So the result is customer_number 3.</p>
+        <p><strong>Follow up:</strong> What if more than one customer has the largest number of orders, can you find all the customer_number in this case?</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT customer_number
+FROM Orders
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Group by <code class="ic">customer_number</code>.</li>
+          <li>Order groups by count of orders descending.</li>
+          <li><code class="ic">LIMIT 1</code> returns the top customer.</li>
+          <li><strong>Group counts:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>Customer 1 → 1 order</li>
+              <li>Customer 2 → 1 order</li>
+              <li>Customer 3 → 2 orders ← highest</li>
+            </ul>
+          </li>
+          <li>Customer 3 has 2 orders, the highest → returned.</li>
+        </ul>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📎 Follow-up solution</div>
+        <p>If multiple customers tie for the most orders, the above query would return only one of them. To return all, you can use <code class="ic">RANK()</code> or a subquery with <code class="ic">MAX(COUNT(*))</code>.</p>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>ORDER BY + LIMIT is the simplest ranking approach when a single winner is guaranteed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 7 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-red">
+      <div class="badge b-red">7</div>
+      <div>
+        <div class="lesson-title t-red">🌍 595. Big Countries</div>
+        <div class="lesson-sub">Filter by area ≥ 3M or population ≥ 25M</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>A country is big if:</p>
+        <ul class="sl">
+          <li>it has an area of at least three million (i.e., 3000000 km²), or</li>
+          <li>it has a population of at least twenty-five million (i.e., 25000000).</li>
+        </ul>
+        <p>Write a solution to find the name, population, and area of the big countries.</p>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Example 1 · Input</div>
+        <p><strong>World table:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>continent</td><td>area</td><td>population</td><td>gdp</td></tr></thead>
+          <tbody>
+            <tr><td>Afghanistan</td><td>Asia</td><td>652230</td><td>25500100</td><td>20343000000</td></tr>
+            <tr><td>Albania</td><td>Europe</td><td>28748</td><td>2831741</td><td>12960000000</td></tr>
+            <tr><td>Algeria</td><td>Africa</td><td>2381741</td><td>37100000</td><td>188681000000</td></tr>
+            <tr><td>Andorra</td><td>Europe</td><td>468</td><td>78115</td><td>3712000000</td></tr>
+            <tr><td>Angola</td><td>Africa</td><td>1246700</td><td>20609294</td><td>100990000000</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Output:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>name</td><td>population</td><td>area</td></tr></thead>
+          <tbody>
+            <tr><td>Afghanistan</td><td>25500100</td><td>652230</td></tr>
+            <tr><td>Algeria</td><td>37100000</td><td>2381741</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT name, population, area
+FROM World
+WHERE area >= 3000000 OR population >= 25000000;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Straightforward <code class="ic">WHERE</code> with OR condition.</li>
+          <li>Both thresholds are inclusive (<code class="ic">&gt;=</code>).</li>
+          <li><strong>Row-by-row:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>Afghanistan → population 25,500,100 ≥ 25M ✅</li>
+              <li>Albania → area 28,748 &lt; 3M, population 2.8M &lt; 25M ❌</li>
+              <li>Algeria → area 2,381,741 &lt; 3M, population 37.1M ≥ 25M ✅</li>
+              <li>Andorra → both too small ❌</li>
+              <li>Angola → area 1.2M &lt; 3M, population 20.6M &lt; 25M ❌</li>
+            </ul>
+          </li>
+          <li>Result: Afghanistan (population) and Algeria (population).</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Simple filtering — no joins or aggregates needed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 8 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-blue">
+      <div class="badge b-blue">8</div>
+      <div>
+        <div class="lesson-title t-blue">🔢 619. Biggest Single Number</div>
+        <div class="lesson-sub">Largest number that appears exactly once, or NULL</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>A single number is a number that appeared only once in the MyNumbers table.</p>
+        <p>Find the largest single number. If there is no single number, report null.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Example 1 · Input</div>
+          <table class="dtable">
+            <thead><tr><td>num</td></tr></thead>
+            <tbody>
+              <tr><td>8</td></tr><tr><td>8</td></tr><tr><td>3</td></tr><tr><td>3</td></tr><tr><td>1</td></tr><tr><td>4</td></tr><tr><td>5</td></tr><tr><td>6</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Output:</strong> 6</p>
+          <p><strong>Explanation:</strong> The single numbers are 1, 4, 5, and 6. Since 6 is the largest single number, we return it.</p>
+        </div>
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Example 2 · Input (no singles)</div>
+          <table class="dtable">
+            <thead><tr><td>num</td></tr></thead>
+            <tbody>
+              <tr><td>8</td></tr><tr><td>8</td></tr><tr><td>7</td></tr><tr><td>7</td></tr><tr><td>3</td></tr><tr><td>3</td></tr><tr><td>3</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Output:</strong> null</p>
+          <p><strong>Explanation:</strong> There are no single numbers in the input table so we return null.</p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT MAX(num) AS num -- max(num) returns null if no value from the subquery
+FROM (
+    SELECT num
+    FROM MyNumbers 
+    GROUP BY num 
+    HAVING COUNT(num) < 2
+    ORDER BY num DESC
+    LIMIT 1 
+) AS num;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Subquery finds numbers that appear only once (<code class="ic">HAVING COUNT(num) < 2</code>), ordered descending, limit 1 for the largest.</li>
+          <li>Outer <code class="ic">MAX(num)</code> returns that number if the subquery produced a row; otherwise returns NULL.</li>
+          <li><strong>Example 1 walkthrough:</strong> Group counts → 1:1, 3:2, 4:1, 5:1, 6:1, 8:2. Singles are 1,4,5,6. Subquery ordered desc limit 1 → 6. MAX(6) = 6.</li>
+          <li><strong>Example 2 walkthrough:</strong> No number appears once, subquery empty → MAX returns NULL. ✅</li>
+          <li>This cleverly handles the "no single number" case by returning NULL.</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Using an aggregate on a subquery that may be empty guarantees a NULL result — perfect for "or null" requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 9 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-green">
+      <div class="badge b-green">9</div>
+      <div>
+        <div class="lesson-title t-green">📊 1633. Percentage of Users Attended a Contest</div>
+        <div class="lesson-sub">Percentage of registered users per contest, rounded to 2 decimals</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to find the percentage of the users registered in each contest rounded to two decimals.</p>
+        <p>Return the result table ordered by percentage in descending order. In case of a tie, order it by contest_id in ascending order.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Users table</div>
+          <table class="dtable">
+            <thead><tr><td>user_id</td><td>user_name</td></tr></thead>
+            <tbody>
+              <tr><td>6</td><td>Alice</td></tr>
+              <tr><td>2</td><td>Bob</td></tr>
+              <tr><td>7</td><td>Alex</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c-note" style="margin-bottom:0;">
+          <div class="card-title ct-lavender">Register table</div>
+          <table class="dtable">
+            <thead><tr><td>contest_id</td><td>user_id</td></tr></thead>
+            <tbody>
+              <tr><td>215</td><td>6</td></tr><tr><td>209</td><td>2</td></tr><tr><td>208</td><td>2</td></tr><tr><td>210</td><td>6</td></tr><tr><td>208</td><td>6</td></tr><tr><td>209</td><td>7</td></tr><tr><td>209</td><td>6</td></tr><tr><td>215</td><td>7</td></tr><tr><td>208</td><td>7</td></tr><tr><td>210</td><td>2</td></tr><tr><td>207</td><td>2</td></tr><tr><td>210</td><td>7</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Output</div>
+        <table class="dtable">
+          <thead><tr><td>contest_id</td><td>percentage</td></tr></thead>
+          <tbody>
+            <tr><td>208</td><td>100.0</td></tr>
+            <tr><td>209</td><td>100.0</td></tr>
+            <tr><td>210</td><td>100.0</td></tr>
+            <tr><td>215</td><td>66.67</td></tr>
+            <tr><td>207</td><td>33.33</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Explanation:</strong> All the users registered in contests 208, 209, and 210. The percentage is 100% and we sort them in the answer table by contest_id in ascending order. Alice and Alex registered in contest 215 and the percentage is ((2/3) * 100) = 66.67%. Bob registered in contest 207 and the percentage is ((1/3) * 100) = 33.33%.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT contest_id,
+       ROUND(COUNT(DISTINCT user_id) / (SELECT COUNT(user_id) FROM Users) * 100, 2) AS percentage
+FROM Register
+GROUP BY contest_id
+ORDER BY percentage DESC, contest_id;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Subquery <code class="ic">(SELECT COUNT(user_id) FROM Users)</code> gets total unique users (3 in this example).</li>
+          <li>For each contest, count distinct registered users, divide by total, multiply by 100, and round to 2 decimals.</li>
+          <li>Order by percentage descending, then contest_id ascending.</li>
+          <li><strong>Per-contest breakdown:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>208 → users 2, 6, 7 → 3/3 × 100 = 100.0</li>
+              <li>209 → users 2, 6, 7 → 3/3 × 100 = 100.0</li>
+              <li>210 → users 6, 2, 7 → 3/3 × 100 = 100.0</li>
+              <li>215 → users 6, 7 → 2/3 × 100 = 66.67</li>
+              <li>207 → user 2 → 1/3 × 100 = 33.33</li>
+            </ul>
+          </li>
+          <li>Sorted by percentage desc, then contest_id asc → 208, 209, 210, 215, 207.</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p>Combine aggregation with scalar subqueries to compute ratios. Always use <code class="ic">DISTINCT</code> if registration might have duplicates.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem 10 ── -->
+  <section class="lesson">
+    <div class="lesson-header lh-amber">
+      <div class="badge b-amber">10</div>
+      <div>
+        <div class="lesson-title t-amber">📚 596. Classes With at Least 5 Students</div>
+        <div class="lesson-sub">Find classes having ≥ 5 students</div>
+      </div>
+    </div>
+    <div class="lesson-body">
+      <div class="card c-info">
+        <div class="card-title ct-blue">📌 Problem Statement</div>
+        <p>Write a solution to find all the classes that have at least five students.</p>
+        <p>Return the result table in any order.</p>
+      </div>
+
+      <div class="card c-note">
+        <div class="card-title ct-lavender">📋 Example 1 · Input</div>
+        <p><strong>Courses table:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>student</td><td>class</td></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>Math</td></tr><tr><td>B</td><td>English</td></tr><tr><td>C</td><td>Math</td></tr><tr><td>D</td><td>Biology</td></tr><tr><td>E</td><td>Math</td></tr><tr><td>F</td><td>Computer</td></tr><tr><td>G</td><td>Math</td></tr><tr><td>H</td><td>Math</td></tr><tr><td>I</td><td>Math</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Output:</strong></p>
+        <table class="dtable">
+          <thead><tr><td>class</td></tr></thead>
+          <tbody>
+            <tr><td>Math</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Explanation:</strong></p>
+        <ul class="sl">
+          <li>Math has 6 students, so we include it.</li>
+          <li>English has 1 student, so we do not include it.</li>
+          <li>Biology has 1 student, so we do not include it.</li>
+          <li>Computer has 1 student, so we do not include it.</li>
+        </ul>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">sql</span>
+          <span class="code-label">Solution</span>
+        </div><span class="code-body">SELECT class
+FROM Courses 
+GROUP BY class
+HAVING COUNT(class) >= 5;</span>
+      </div>
+
+      <div class="card c-success">
+        <div class="card-title ct-green">✅ Detailed Explanation</div>
+        <ul class="sl">
+          <li>Group by <code class="ic">class</code>.</li>
+          <li><code class="ic">HAVING COUNT(class) >= 5</code> keeps only groups with 5 or more students.</li>
+          <li><strong>Group counts:</strong>
+            <ul class="sl" style="margin-top:4px;">
+              <li>Math → 6 students ≥ 5 ✅</li>
+              <li>English → 1 ❌</li>
+              <li>Biology → 1 ❌</li>
+              <li>Computer → 1 ❌</li>
+            </ul>
+          </li>
+          <li>Only Math is returned.</li>
+        </ul>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-title ct-teal">🔑 Conclusion</div>
+        <p><code class="ic">GROUP BY</code> + <code class="ic">HAVING</code> is the standard pattern for filtering aggregated groups.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- final spacer -->
+  <div style="height:20px;"></div>
+
+</div> <!-- .page -->
+
+<!-- ═══════════ SECTION 17 — SYNTAX HIGHLIGHTER (unmodified) ═══════════ -->
+<script>
+(function(){
+  function escapeHTML(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function highlight(raw){
+    var out = '';
+    var i   = 0;
+    var len = raw.length;
+
+    while(i < len){
+
+      /* ── Line comment ── */
+      if(raw[i]==='/' && raw[i+1]==='/'){
+        var end = raw.indexOf('\n', i);
+        if(end===-1) end = len;
+        out += '<span class="tok-comment">'+escapeHTML(raw.slice(i,end))+'</span>';
+        i = end;
+        continue;
+      }
+
+      /* ── Double-quoted string ── */
+      if(raw[i]==='"'){
+        var j = i+1;
+        while(j < len){ if(raw[j]==='\\'){j+=2;continue;} if(raw[j]==='"'){j++;break;} j++; }
+        out += '<span class="tok-str">'+escapeHTML(raw.slice(i,j))+'</span>';
+        i = j;
+        continue;
+      }
+
+      /* ── Single-quoted char ── */
+      if(raw[i]==="'"){
+        var j = i+1;
+        while(j < len){ if(raw[j]==='\\'){j+=2;continue;} if(raw[j]==="'"){j++;break;} j++; }
+        out += '<span class="tok-str">'+escapeHTML(raw.slice(i,j))+'</span>';
+        i = j;
+        continue;
+      }
+
+      /* ── Word / identifier token ── */
+      if(/[a-zA-Z_$]/.test(raw[i])){
+        var j = i;
+        while(j < len && /[a-zA-Z0-9_$]/.test(raw[j])) j++;
+        var word = raw.slice(i,j);
+        var esc  = escapeHTML(word);
+
+        /* Primitive type keywords */
+        if(/^(String|int|double|float|long|boolean|char|byte|short|void)$/.test(word)){
+          out += '<span class="tok-kw">'+esc+'</span>';
+
+        /* Control-flow, modifier & structural keywords */
+        } else if(/^(if|else|for|while|do|return|new|break|continue|switch|case|default|try|catch|finally|throw|throws|import|package|class|interface|enum|extends|implements|static|final|public|private|protected|abstract|this|super|instanceof|synchronized|volatile|transient|native|strictfp)$/.test(word)){
+          out += '<span class="tok-ctrl">'+esc+'</span>';
+
+        /* Boolean / null literals */
+        } else if(/^(true|false|null)$/.test(word)){
+          out += '<span class="tok-bool">'+esc+'</span>';
+
+        /* Well-known built-in class names */
+        } else if(/^(StringBuilder|StringBuffer|CharArrayWriter|LinkedHashMap|LinkedHashSet|HashSet|TreeSet|HashMap|TreeMap|Arrays|Collections|List|ArrayList|Map|Set|Queue|Stack|Optional|Stream|Iterator|Entry|Integer|Double|Float|Long|Short|Byte|Boolean|Character|Number|Object|Math|Runtime|Thread|Runnable|Exception|RuntimeException|Error|Throwable|System|Scanner|Random|PrintStream|BufferedReader|InputStreamReader)$/.test(word)){
+          out += '<span class="tok-type">'+esc+'</span>';
+
+        /* System — own color */
+        } else if(word==='System'){
+          out += '<span class="tok-sys">'+esc+'</span>';
+
+        /* Any other CamelCase word → treat as a class name */
+        } else if(/^[A-Z][a-zA-Z0-9]*$/.test(word)){
+          out += '<span class="tok-type">'+esc+'</span>';
+
+        /* Method call — identifier immediately followed by ( */
+        } else {
+          var k = j;
+          while(k < len && raw[k]===' ') k++;
+          if(raw[k]==='('){
+            out += '<span class="tok-method">'+esc+'</span>';
+          } else {
+            out += '<span class="tok-var">'+esc+'</span>';
+          }
+        }
+        i = j;
+        continue;
+      }
+
+      /* ── Numeric literal ── */
+      if(/[0-9]/.test(raw[i])){
+        var j = i;
+        while(j < len && /[0-9\.fFdDlLxXa-fA-F_]/.test(raw[j])) j++;
+        out += '<span class="tok-num">'+escapeHTML(raw.slice(i,j))+'</span>';
+        i = j;
+        continue;
+      }
+
+      /* ── Everything else (punctuation, operators, whitespace) ── */
+      out += escapeHTML(raw[i]);
+      i++;
+    }
+    return out;
+  }
+
+  /* Apply to every .code-body on the page */
+  document.querySelectorAll('.code-body').forEach(function(el){
+    el.innerHTML = highlight(el.textContent);
+  });
+})();
+</script>
+
+</body>
+</html>
