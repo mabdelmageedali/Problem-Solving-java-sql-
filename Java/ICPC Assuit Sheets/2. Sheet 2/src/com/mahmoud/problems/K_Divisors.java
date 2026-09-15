@@ -1,15 +1,17 @@
+package com.mahmoud.problems;
+
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
+public class K_Divisors {
+    static void main() {
         Scanner sc = new Scanner(System.in);
-        long n1 = sc.nextLong();
-        long n2 = sc.nextLong();
+        int n1 = sc.nextInt();
+        int n2 = sc.nextInt();
 
-        long max = Math.max(n1, n2);
+        int max = Math.max(n1, n2);
         int gdc = 1;
 
-        for(int i = 1; i <= max; i++){
+        for(int i = 1; i < max; i++){
             if(n1 % i == 0 && n2 % i == 0){
                 gdc = i;
             }
